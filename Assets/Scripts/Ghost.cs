@@ -14,7 +14,8 @@ public class Ghost : MonoBehaviour, MapManagerListener {
 
 	public void onMapReady() {
         GameObject player = mapManager.getPlayer();
-       // mapManager chi duoc su dung sau khi onMapReady, su dung trong ham Start coi chung bug
+        // mapManager chi duoc su dung sau khi onMapReady, 
+        // su dung trong ham Start coi chung bug
 	}
 	// Update is called once per frame
 	void Update () {
