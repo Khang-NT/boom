@@ -70,6 +70,7 @@ public class MapManager : MonoBehaviour {
 	public List<MapManagerListener> listeners = new List<MapManagerListener>();
 	private Rect gameBound;
 	private bool mapReady = false;
+	public float defaultSpeed;
 
 
 	void Start() {
