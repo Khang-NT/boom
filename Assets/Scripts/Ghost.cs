@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Ghost : MonoBehaviour {
+public class Ghost : MonoBehaviour, MapManagerListener {
     public MapManager mapManager;
 
 	// Use this for initialization
 	void Start () {
-        for (int i = 0; i < 10; i++)
-            for (int j = 0; j < 10; j++)
-                Debug.Log(mapManager[i, j]);
+		mapManager.addListener (this);
     }
+
+	public void onMapReady() {
+		        for (int i = 0; i < 10; i++)
+		            for (int j = 0; j < 10; j++)
+		                Debug.Log(mapManager[i, j]);
+	}
 	
 	// Update is called once per frame
 	void Update () {
