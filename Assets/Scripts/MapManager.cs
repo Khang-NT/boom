@@ -47,6 +47,10 @@ public enum MapObjectType {
 	FLAME
 }
 
+public interface MapManagerListener {
+	void onMapReady ();
+}
+
 public class MapManager : MonoBehaviour {
 	public static readonly int MAP_WIDTH = 15, MAP_HEIGHT = 13;
 
@@ -62,7 +66,9 @@ public class MapManager : MonoBehaviour {
 	private List<GameObject> ghosts;
 	private List<GameObject> booms;
 	private List<GameObject> flame;
+	public List<MapManagerListener> listeners;
 	private Rect gameBound;
+	private bool mapReady = false;
 
 
 	void Start() {
@@ -95,6 +101,23 @@ public class MapManager : MonoBehaviour {
 		booms = new List<GameObject>();
 		// create flame list as an empty list
 		flame = new List<GameObject>();
+
+
+		foreach (var listener in listeners) {
+			listener.onMapReady ();
+		}
+
+		mapReady = true;
+	}
+
+	public void addListener(MapManagerListener listener) {
+		listeners.Add (listener);
+		if (mapReady)
+			listener.onMapReady ();
+	}
+
+	public void removeListener(MapManagerListener listener) {
+		listeners.Remove (listener);
 	}
 
 	public List<GameObject> getBooms() {
