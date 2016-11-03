@@ -37,6 +37,7 @@ public class MapLocation {
 	}
 }
 
+// trên map thì mình có mấy loại này thôi
 public enum MapObjectType {
 	BRICK_UNDESTROYABLE,
 	BRICK_DESTROYABLE,
@@ -66,7 +67,7 @@ public class MapManager : MonoBehaviour {
 	private List<GameObject> ghosts;
 	private List<GameObject> booms;
 	private List<GameObject> flame;
-	public List<MapManagerListener> listeners;
+	public List<MapManagerListener> listeners = new List<MapManagerListener>();
 	private Rect gameBound;
 	private bool mapReady = false;
 
@@ -120,6 +121,8 @@ public class MapManager : MonoBehaviour {
 		listeners.Remove (listener);
 	}
 
+    // này là get ra  list boom, 
+    // khi t viết thằng player, nếu đặt boom thì t sẽ gọi
 	public List<GameObject> getBooms() {
 		return booms;
 	}
@@ -136,6 +139,9 @@ public class MapManager : MonoBehaviour {
 		return flame.Remove (f);
 	}
 
+    // nói chung map manager nó sẽ biết dc hết đối tượng trên bản đồ
+    // chỉ trừ mấy cái item thôi, cái đó t handle trong thằng player nên khỏi quan tâm
+    //
 	public void registerBoom(GameObject boom) {
 		booms.Add (boom);
 	}
@@ -143,6 +149,11 @@ public class MapManager : MonoBehaviour {
 	public bool removeBoom(GameObject boom) {
 		return booms.Remove (boom);
 	}
+
+    public GameObject getPlayer()
+    {
+        return player;
+    }
 
 	public GameObject this[int x, int y] {
 		get {
@@ -183,6 +194,7 @@ public class MapManager : MonoBehaviour {
 		return vector3ToMapLocation (gameObj.transform.position);
 	}
 
+    // này để check xem cái game object đó là cái gì
 	public static MapObjectType getTypeOf(GameObject go) {
 		if (go.tag.Equals ("brick")) {
 			if (go.name.StartsWith ("destroyable"))
@@ -201,12 +213,18 @@ public class MapManager : MonoBehaviour {
 		throw new UnityException ("Unknown game object type in map: " + go.ToString());
 	}
 
+
+
+    // hai cái này cũng quan trong, ví dụ như ông viết cái script ghost, muốn
+    // biết 1 cái game object bất kì ở tọa độ nào thì dùng hàm này
 	public static MapLocation vector3ToMapLocation(Vector3 position) {
 		int x = (int) Mathf.Floor (((float)(MAP_WIDTH * (position.x - sInstance.gameBound.x)) / sInstance.gameBound.width));
 		int y = (int) Mathf.Floor (((float)(MAP_HEIGHT * (position.y - sInstance.gameBound.y)) / sInstance.gameBound.height));
 		return new MapLocation (x, y);
 	}
 
+    // này chuyển từ tọa độ index x y trong map sang tọa độ x y trong unity
+    // 
 	public static Vector3 mapLocationToVector3(MapLocation lc) {
 		return new Vector3 (
 			sInstance.gameBound.x + (lc.X / (float)MAP_WIDTH) * (sInstance.gameBound.width),
