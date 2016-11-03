@@ -149,7 +149,7 @@ public class MapManager : MonoBehaviour {
 
 	private void findAllBricks() {
 		bricks.Clear ();
-		GameObject[] brickObjects = GameObject.FindGameObjectsWithTag ("bricks");
+		GameObject[] brickObjects = GameObject.FindGameObjectsWithTag ("brick");
 		foreach (GameObject brick in brickObjects) {
 			MapLocation location = vector3ToMapLocation (brick.transform.position);
 			bricks [location] = brick;
