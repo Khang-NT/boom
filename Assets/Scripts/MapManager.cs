@@ -50,6 +50,7 @@ public enum MapObjectType {
 
 public interface MapManagerListener {
 	void onMapReady ();
+    void onMapChanged();
 }
 
 public class MapManager : MonoBehaviour {
