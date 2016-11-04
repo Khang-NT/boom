@@ -72,6 +72,7 @@ public class MapManager : MonoBehaviour {
 	private Rect gameBound;
 	private bool mapReady = false;
 	public float defaultSpeed;
+	private float cellSize;
 
 
 	void Start() {
@@ -88,6 +89,8 @@ public class MapManager : MonoBehaviour {
 		gameBound.width = bottomRight.transform.position.x - topLeft.transform.position.x;
 		gameBound.height = topLeft.transform.position.y - bottomRight.transform.position.y;
 		Debug.Log (gameBound);
+
+		cellSize = Mathf.Max (gameBound.width / (float)MAP_WIDTH, gameBound.height / (float)MAP_HEIGHT);
 
 		// find all bricks
 		bricks = new Dictionary<MapLocation, GameObject> ();
@@ -158,6 +161,10 @@ public class MapManager : MonoBehaviour {
     {
         return player;
     }
+
+	public float getCellSize() {
+		return cellSize;
+	}
 
 	public GameObject this[int x, int y] {
 		get {

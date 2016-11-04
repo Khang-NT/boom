@@ -12,11 +12,13 @@ public class Player : MonoBehaviour, MapManagerListener {
 	public float speed = 1f;
 
 	private bool boomDelay = false;
+	private Rigidbody2D rigidBody;
 
 
 	// Use this for initialization
 	void Start () {
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		rigidBody = GetComponent<Rigidbody2D> ();
 		mapManager.addListener (this);
 	}
 
@@ -55,12 +57,11 @@ public class Player : MonoBehaviour, MapManagerListener {
 	void Update () {
 		float y = Input.GetAxis ("Vertical");
 		float x = Input.GetAxis ("Horizontal");
-		var move = new Vector3(
+		var move = new Vector2(
 			x * speed * Time.deltaTime * mapManager.defaultSpeed, 
-			y * speed * Time.deltaTime * mapManager.defaultSpeed, 
-			0);
+			y * speed * Time.deltaTime * mapManager.defaultSpeed);
 
-		transform.Translate (move);
+		rigidBody.velocity = move;
 
 		if (y < 0)
 			setState (0);
