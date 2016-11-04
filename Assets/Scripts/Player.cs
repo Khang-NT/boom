@@ -27,6 +27,10 @@ public class Player : MonoBehaviour, MapManagerListener {
 		Debug.Log (position);
 	}
 
+	public void onMapChanged() {
+
+	}
+
 	protected void setState(int state) {
 		if (this.state != state) {
 			this.state = state;
