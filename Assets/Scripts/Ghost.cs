@@ -4,8 +4,10 @@ using System.Collections;
 public class Ghost : MonoBehaviour, MapManagerListener {
     public MapManager mapManager;
 
-    public int smartness = 1; 
-    public float speed = 1f; 
+    public int smartness;
+    public float speedIndex;
+     
+    private float speed; 
     
 	// Use this for initialization
 	void Start () {
@@ -14,9 +16,9 @@ public class Ghost : MonoBehaviour, MapManagerListener {
 
 	public void onMapReady() {
         GameObject player = mapManager.getPlayer();
-        // mapManager chi duoc su dung sau khi onMapReady, 
-        // su dung trong ham Start coi chung bug
+        
 	}
+
 	// Update is called once per frame
 	void Update () {
         
