@@ -94,6 +94,8 @@ public class MapManager : MonoBehaviour {
 
 		// find player and ghosts
 		player = GameObject.Find ("player");
+
+		Debug.Log (player);
 		ghosts = new List<GameObject> ();
 		GameObject[] gs = GameObject.FindGameObjectsWithTag ("ghost");
 		foreach (GameObject go in gs)
@@ -191,7 +193,7 @@ public class MapManager : MonoBehaviour {
 		}
 	}
 
-	public MapLocation getMapLocation(GameObject gameObj) {
+	public static MapLocation getMapLocation(GameObject gameObj) {
 		return vector3ToMapLocation (gameObj.transform.position);
 	}
 
@@ -228,8 +230,8 @@ public class MapManager : MonoBehaviour {
     // 
 	public static Vector3 mapLocationToVector3(MapLocation lc) {
 		return new Vector3 (
-			sInstance.gameBound.x + (lc.X / (float)MAP_WIDTH) * (sInstance.gameBound.width),
-			sInstance.gameBound.y + (lc.Y / (float)MAP_HEIGHT) * (sInstance.gameBound.height)
+			sInstance.gameBound.x + lc.X * (sInstance.gameBound.width / (float) (MAP_WIDTH - 1)),
+			sInstance.gameBound.y + lc.Y * (sInstance.gameBound.height / (float) (MAP_HEIGHT - 1))
 		);
 	}
 }
