@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour, MapManagerListener {
 
 	public MapManager mapManager;
 
@@ -11,10 +11,20 @@ public class Player : MonoBehaviour {
 	public List<Sprite> playerStates;
 	public float speed = 1f;
 
+	private bool boomDelay = false;
+
 
 	// Use this for initialization
 	void Start () {
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		mapManager.addListener (this);
+	}
+
+	public void onMapReady() {
+		MapLocation lc = MapManager.getMapLocation (gameObject);
+		Vector3 position = MapManager.mapLocationToVector3 (lc);
+		Debug.Log (lc);
+		Debug.Log (position);
 	}
 
 	protected void setState(int state) {
@@ -22,6 +32,19 @@ public class Player : MonoBehaviour {
 			this.state = state;
 			spriteRenderer.sprite = playerStates [state];
 		}
+	}
+
+	private bool createBoom() {
+		MapLocation lc = MapManager.getMapLocation (gameObject);
+		GameObject go = mapManager [lc.X, lc.Y];
+		if (go == null || go.name == "player") {
+			Vector3 position = MapManager.mapLocationToVector3 (lc);
+			GameObject monster = (GameObject)Instantiate (Resources.Load ("bomb"));
+			monster.transform.position = position;
+		
+			return true;
+		}
+		return false;
 	}
 	
 	// Update is called once per frame
@@ -43,5 +66,11 @@ public class Player : MonoBehaviour {
 			setState (3);
 		else if (x > 0)
 			setState (1);
+
+		if (Input.GetKeyDown ("space"))
+			boomDelay = true;
+
+		if (boomDelay && createBoom ())
+			boomDelay = false;
 	}
 }
