@@ -1,11 +1,11 @@
 fileFormatVersion: 2
 guid: 22725e96301b144ee98659695a0abd54
-timeCreated: 1478195380
+timeCreated: 1478196860
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: flames_0
-    21300002: flames_1
+    21300000: player_1
+    21300002: player_0
     21300004: flames_2
     21300006: flames_3
     21300008: flames_4
@@ -14,8 +14,15 @@ TextureImporter:
     21300014: flames_7
     21300016: flames_8
     21300018: flames_9
-    21300020: flames_10
-    21300022: flames_11
+    21300020: player_2
+    21300022: player_3
+    21300024: flames_center
+    21300026: flames_horizontal
+    21300028: flames_left
+    21300030: flames_right
+    21300032: flames_vertical
+    21300034: flames_top
+    21300036: flames_bottom
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -65,7 +72,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: flames_0
+      name: player_1
       rect:
         serializedVersion: 2
         x: 8
@@ -73,12 +80,12 @@ TextureImporter:
         width: 44
         height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: flames_1
+      name: player_0
       rect:
         serializedVersion: 2
         x: 62
@@ -86,7 +93,7 @@ TextureImporter:
         width: 54
         height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -99,7 +106,7 @@ TextureImporter:
         width: 51
         height: 53
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -112,7 +119,7 @@ TextureImporter:
         width: 51
         height: 53
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -125,7 +132,7 @@ TextureImporter:
         width: 50
         height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -138,7 +145,7 @@ TextureImporter:
         width: 50
         height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -151,7 +158,7 @@ TextureImporter:
         width: 50
         height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -164,7 +171,7 @@ TextureImporter:
         width: 50
         height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -177,7 +184,7 @@ TextureImporter:
         width: 50
         height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -190,12 +197,12 @@ TextureImporter:
         width: 50
         height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: flames_10
+      name: player_2
       rect:
         serializedVersion: 2
         x: 125
@@ -208,13 +215,104 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: flames_11
+      name: player_3
       rect:
         serializedVersion: 2
         x: 185
         y: 145
         width: 47
         height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_center
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 92
+        width: 39
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_horizontal
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 94
+        width: 33
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_left
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 92
+        width: 35
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_right
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 93
+        width: 38
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_vertical
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 140
+        width: 40
+        height: 33
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_top
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 173
+        width: 38
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_bottom
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 14
+        width: 41
+        height: 38
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
