@@ -6,6 +6,7 @@ public class Boom : MonoBehaviour {
 	public MapManager mapManager;
 
 	public float time = 2;	// 2 seconds
+	public int radius = 2;
 
 	private BoxCollider2D boxCollider;
 
@@ -14,17 +15,143 @@ public class Boom : MonoBehaviour {
 		mapManager = MapManager.getInstance ();
 		boxCollider = GetComponent<BoxCollider2D> ();
 	}
+
+	void onExploded() {
+		MapLocation lc = MapManager.getMapLocation (this.gameObject);
+		GameObject flame = (GameObject)Instantiate (Resources.Load ("flame"));
+		flame.transform.position = transform.position;
+		for (int i = 1; i < radius; i++) {
+			GameObject go = mapManager [lc.X, lc.Y + i];
+			Vector3 pos = MapManager.mapLocationToVector3 (new MapLocation (lc.X, lc.Y + i));
+			if (go == null) {
+				((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+			} else {
+				MapObjectType type = MapManager.getTypeOf (go);
+				bool shouldBreak = false;
+				switch (type) {
+				case MapObjectType.GHOST:
+				case MapObjectType.ITEM:
+				case MapObjectType.PLAYER:
+				case MapObjectType.BOOM:
+				case MapObjectType.FLAME:
+					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+					break;
+				case MapObjectType.BRICK_UNDESTROYABLE:
+					shouldBreak = true;
+					break;
+				case MapObjectType.BRICK_DESTROYABLE:
+					shouldBreak = true;
+					Destroy (go);
+					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+					break;	
+				}
+				if (shouldBreak)
+					break;
+			}
+		}
+		for (int i = 1; i < radius; i++) {
+			GameObject go = mapManager [lc.X, lc.Y - i];
+			Vector3 pos = MapManager.mapLocationToVector3 (new MapLocation (lc.X, lc.Y - i));
+			if (go == null) {
+				((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+			} else {
+				MapObjectType type = MapManager.getTypeOf (go);
+				bool shouldBreak = false;
+				switch (type) {
+				case MapObjectType.GHOST:
+				case MapObjectType.ITEM:
+				case MapObjectType.PLAYER:
+				case MapObjectType.BOOM:
+				case MapObjectType.FLAME:
+					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+					break;
+				case MapObjectType.BRICK_UNDESTROYABLE:
+					shouldBreak = true;
+					break;
+				case MapObjectType.BRICK_DESTROYABLE:
+					shouldBreak = true;
+					Destroy (go);
+					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+					break;	
+				}
+				if (shouldBreak)
+					break;
+			}
+		}
+
+		for (int i = 1; i < radius; i++) {
+			GameObject go = mapManager [lc.X + i, lc.Y];
+			Vector3 pos = MapManager.mapLocationToVector3 (new MapLocation (lc.X + i, lc.Y));
+			if (go == null) {
+				((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+			} else {
+				MapObjectType type = MapManager.getTypeOf (go);
+				bool shouldBreak = false;
+				switch (type) {
+				case MapObjectType.GHOST:
+				case MapObjectType.ITEM:
+				case MapObjectType.PLAYER:
+				case MapObjectType.BOOM:
+				case MapObjectType.FLAME:
+					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+					break;
+				case MapObjectType.BRICK_UNDESTROYABLE:
+					shouldBreak = true;
+					break;
+				case MapObjectType.BRICK_DESTROYABLE:
+					shouldBreak = true;
+					Destroy (go);
+					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+					break;	
+				}
+				if (shouldBreak)
+					break;
+			}
+		}
+
+		for (int i = 1; i < radius; i++) {
+			GameObject go = mapManager [lc.X - i, lc.Y];
+			Vector3 pos = MapManager.mapLocationToVector3 (new MapLocation (lc.X - i, lc.Y));
+			if (go == null) {
+				((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+			} else {
+				MapObjectType type = MapManager.getTypeOf (go);
+				bool shouldBreak = false;
+				switch (type) {
+				case MapObjectType.GHOST:
+				case MapObjectType.ITEM:
+				case MapObjectType.PLAYER:
+				case MapObjectType.BOOM:
+				case MapObjectType.FLAME:
+					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+					break;
+				case MapObjectType.BRICK_UNDESTROYABLE:
+					shouldBreak = true;
+					break;
+				case MapObjectType.BRICK_DESTROYABLE:
+					shouldBreak = true;
+					Destroy (go);
+					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
+					break;	
+				}
+				if (shouldBreak)
+					break;
+			}
+		}
+	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (!boxCollider.enabled) {
 			float distance = Vector3.Distance (mapManager.getPlayer ().transform.position, transform.position);
-			if (distance >= mapManager.getCellSize () * 2 / 3)
+			if (distance >= mapManager.getCellSize ())
 				boxCollider.enabled = true;
 		}
 
-//		time -= Time.deltaTime;
-//		if (time <= 0)
-//			Destroy (gameObject);
+		time -= Time.deltaTime;
+		if (time <= 0) {
+			onExploded ();
+			Destroy (gameObject);
+		}
 	}
 }
