@@ -1,21 +1,21 @@
 fileFormatVersion: 2
-guid: 7e5e1c706c3657b448eb68968a2365d7
-timeCreated: 1478194026
+guid: 22725e96301b144ee98659695a0abd54
+timeCreated: 1478195380
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: flame body horizontal
-    21300002: flames head left
-    21300004: flame head right
-    21300006: flames head top
-    21300008: flame head bottom
-    21300010: flames body vertical
-    21300012: flames center
-    21300014: flames_0
-    21300016: flames_1
-    21300018: flames_2
-    21300020: flames_3
-    21300022: flames_4
+    21300000: flames_0
+    21300002: flames_1
+    21300004: flames_2
+    21300006: flames_3
+    21300008: flames_4
+    21300010: flames_5
+    21300012: flames_6
+    21300014: flames_7
+    21300016: flames_8
+    21300018: flames_9
+    21300020: flames_10
+    21300022: flames_11
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -65,106 +65,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: flame body horizontal
-      rect:
-        serializedVersion: 2
-        x: 223
-        y: 97
-        width: 30
-        height: 30
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: flames head left
-      rect:
-        serializedVersion: 2
-        x: 199
-        y: 97
-        width: 30
-        height: 30
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: flame head right
-      rect:
-        serializedVersion: 2
-        x: 396
-        y: 96
-        width: 30
-        height: 30
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: flames head top
-      rect:
-        serializedVersion: 2
-        x: 299
-        y: 171
-        width: 30
-        height: 30
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: flame head bottom
-      rect:
-        serializedVersion: 2
-        x: 299
-        y: 22
-        width: 30
-        height: 30
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: flames body vertical
-      rect:
-        serializedVersion: 2
-        x: 299
-        y: 136
-        width: 30
-        height: 30
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: flames center
-      rect:
-        serializedVersion: 2
-        x: 298
-        y: 97
-        width: 30
-        height: 30
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
       name: flames_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 142
-        width: 48
-        height: 89
+        x: 8
+        y: 144
+        width: 44
+        height: 85
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -173,11 +82,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 62
-        y: 143
-        width: 55
-        height: 88
+        y: 145
+        width: 54
+        height: 85
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -185,12 +94,12 @@ TextureImporter:
       name: flames_2
       rect:
         serializedVersion: 2
-        x: 124
-        y: 143
-        width: 58
-        height: 88
+        x: 354
+        y: 158
+        width: 51
+        height: 53
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -198,12 +107,12 @@ TextureImporter:
       name: flames_3
       rect:
         serializedVersion: 2
-        x: 185
-        y: 143
-        width: 49
-        height: 88
+        x: 354
+        y: 158
+        width: 51
+        height: 53
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -211,10 +120,101 @@ TextureImporter:
       name: flames_4
       rect:
         serializedVersion: 2
+        x: 24
+        y: 77
+        width: 50
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_5
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 77
+        width: 50
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_6
+      rect:
+        serializedVersion: 2
         x: 128
         y: 77
         width: 50
-        height: 46
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_7
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 30
+        width: 50
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_8
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 30
+        width: 50
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_9
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 30
+        width: 50
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_10
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 145
+        width: 54
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flames_11
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 145
+        width: 47
+        height: 84
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
