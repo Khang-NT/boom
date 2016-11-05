@@ -73,6 +73,7 @@ public class MapManager : MonoBehaviour {
 	private bool mapReady = false;
 	public float defaultSpeed;
 	private float cellSize;
+	private float cellWidth, cellHeight;
 
 
 	void Start() {
@@ -90,8 +91,10 @@ public class MapManager : MonoBehaviour {
 		gameBound.height = topLeft.transform.position.y - bottomRight.transform.position.y;
 		Debug.Log (gameBound);
 
-		cellSize = Mathf.Max (gameBound.width / (float)MAP_WIDTH, gameBound.height / (float)MAP_HEIGHT);
 
+		cellWidth = gameBound.width / (float) (MAP_WIDTH - 1);
+		cellHeight = gameBound.height / (float) (MAP_HEIGHT - 1);
+		cellSize = Mathf.Max (cellWidth, cellHeight);
 		// find all bricks
 		bricks = new Dictionary<MapLocation, GameObject> ();
 		findAllBricks ();
@@ -229,9 +232,14 @@ public class MapManager : MonoBehaviour {
     // hai cái này cũng quan trong, ví dụ như ông viết cái script ghost, muốn
     // biết 1 cái game object bất kì ở tọa độ nào thì dùng hàm này
 	public static MapLocation vector3ToMapLocation(Vector3 position) {
-		int x = (int) Mathf.Floor (((float)(MAP_WIDTH * (position.x - sInstance.gameBound.x)) / sInstance.gameBound.width));
-		int y = (int) Mathf.Floor (((float)(MAP_HEIGHT * (position.y - sInstance.gameBound.y)) / sInstance.gameBound.height));
-		return new MapLocation (x, y);
+		Debug.Log ((position.x - sInstance.gameBound.x) / sInstance.cellWidth);
+		int x = Mathf.RoundToInt((position.x - sInstance.gameBound.x) / sInstance.cellWidth);
+		Debug.Log (x);
+		Debug.Log ("--");
+		Debug.Log((position.y - sInstance.gameBound.y) / sInstance.cellHeight);
+		int y = Mathf.RoundToInt((position.y - sInstance.gameBound.y) / sInstance.cellHeight);
+		Debug.Log (y);
+		return new MapLocation (x >= MAP_WIDTH ? MAP_WIDTH - 1 : x, y >= MAP_HEIGHT ? MAP_HEIGHT - 1 : y);
 	}
 
     // này chuyển từ tọa độ index x y trong map sang tọa độ x y trong unity
