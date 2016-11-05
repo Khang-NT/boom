@@ -44,6 +44,7 @@ public class Ghost : MonoBehaviour, MapManagerListener {
     // Find min path from ghost to player
     private void pathFinding()
     {
+        // Ham nay se handle truong hop con ma khong di qua duoc cac vat can luon
         path.Clear();
         List<GameObject> obstructions;
         if (smartness == 2)
@@ -52,34 +53,32 @@ public class Ghost : MonoBehaviour, MapManagerListener {
         }
 
         // implement floyd warshall algorithm
-        //MapLocation temp = new MapLocation(7, 11);
-        //path.Add(temp);
+        MapLocation temp = new MapLocation(7, 11);
+        path.Add(temp);
         //temp = new MapLocation(9, 11);
         //path.Add(temp);
     }
 
     // on flame collision handler
-    void OnCollisionEnter2D(Collision2D coll)
+    private void onFlame()
     {
-        if (coll.gameObject.tag == "flame")
+        List<GameObject> flames = mapManager.getFlame();
+        foreach (GameObject flame in flames)
         {
-            Debug.Log("Ghost mat mau do dinh flame");
-
-            heart -= 1;
-            if (heart == 0)
-            {
-                Debug.Log("Ghost die");
-
-                Destroy(this.gameObject);
-            }   
+            MapLocation flameTmp = MapManager.vector3ToMapLocation(flame.transform.position);
+            MapLocation ghostTmp = MapManager.vector3ToMapLocation(transform.position);
+            int x = ghostTmp.X - flameTmp.X;
+            int y = ghostTmp.Y - flameTmp.Y;
+            if (x == 1 && y == 0) Destroy(this.gameObject);
         }
     }
 
     private void move()
     {
-        // Debug.Log("Ghost is moving");
+        Debug.Log("Ghost is moving");
 
         Vector3 temp = destination - transform.position;
+
         Vector2 move = new Vector2(
             temp.x * speed * Time.deltaTime * mapManager.defaultSpeed,
             temp.y * speed * Time.deltaTime * mapManager.defaultSpeed);
@@ -93,7 +92,7 @@ public class Ghost : MonoBehaviour, MapManagerListener {
     }
 
 	public void onMapReady() {
-        // Debug.Log("Init ghost value");
+        Debug.Log("Init ghost value");
         player = mapManager.getPlayer();
         player_last_position = MapManager.vector3ToMapLocation(player.transform.position);
 
@@ -106,9 +105,9 @@ public class Ghost : MonoBehaviour, MapManagerListener {
         destination = transform.position;
     }
 
+    // obstructions on map change handler
     public void onMapChanged()
     {
-        // Check if obstructions on map change
         Debug.Log("Map changed");
         booms = mapManager.getBooms();
         flames = mapManager.getFlame();
@@ -117,6 +116,8 @@ public class Ghost : MonoBehaviour, MapManagerListener {
 
     // Update is called once per frame
     void Update () {
+        onFlame();
+
         // Check if player move to new position
         MapLocation player_current_position = MapManager.vector3ToMapLocation(player.transform.position);
 
@@ -145,7 +146,7 @@ public class Ghost : MonoBehaviour, MapManagerListener {
         // Check if ghost go to old destination successfully
         if (check_ready() == true)
         {
-            // Debug.Log("Ghost ready to move to new location");
+            Debug.Log("Ghost ready to move to new location");
             if (path.Count != 0)
             {
                 MapLocation temp = path[0];
@@ -163,7 +164,7 @@ public class Ghost : MonoBehaviour, MapManagerListener {
         }
         else
         {
-            // Debug.Log("Ghost is moving to new location");
+            Debug.Log("Ghost is moving to new location");
             move();
         }
     }
