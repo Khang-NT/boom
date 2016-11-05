@@ -232,13 +232,13 @@ public class MapManager : MonoBehaviour {
     // hai cái này cũng quan trong, ví dụ như ông viết cái script ghost, muốn
     // biết 1 cái game object bất kì ở tọa độ nào thì dùng hàm này
 	public static MapLocation vector3ToMapLocation(Vector3 position) {
-		Debug.Log ((position.x - sInstance.gameBound.x) / sInstance.cellWidth);
+		// Debug.Log ((position.x - sInstance.gameBound.x) / sInstance.cellWidth);
 		int x = Mathf.RoundToInt((position.x - sInstance.gameBound.x) / sInstance.cellWidth);
-		Debug.Log (x);
-		Debug.Log ("--");
-		Debug.Log((position.y - sInstance.gameBound.y) / sInstance.cellHeight);
+		// Debug.Log (x);
+		// Debug.Log ("--");
+		// Debug.Log((position.y - sInstance.gameBound.y) / sInstance.cellHeight);
 		int y = Mathf.RoundToInt((position.y - sInstance.gameBound.y) / sInstance.cellHeight);
-		Debug.Log (y);
+		// Debug.Log (y);
 		return new MapLocation (x >= MAP_WIDTH ? MAP_WIDTH - 1 : x, y >= MAP_HEIGHT ? MAP_HEIGHT - 1 : y);
 	}
 
