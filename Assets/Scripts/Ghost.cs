@@ -55,8 +55,8 @@ public class Ghost : MonoBehaviour, MapManagerListener {
         // implement floyd warshall algorithm
         MapLocation temp = new MapLocation(7, 11);
         path.Add(temp);
-        //temp = new MapLocation(9, 11);
-        //path.Add(temp);
+        temp = new MapLocation(9, 11);
+        path.Add(temp);
     }
 
     // on flame collision handler
@@ -78,6 +78,8 @@ public class Ghost : MonoBehaviour, MapManagerListener {
         Debug.Log("Ghost is moving");
 
         Vector3 temp = destination - transform.position;
+
+        Debug.Log("temp " + temp);
 
         Vector2 move = new Vector2(
             temp.x * speed * Time.deltaTime * mapManager.defaultSpeed,
@@ -116,6 +118,8 @@ public class Ghost : MonoBehaviour, MapManagerListener {
 
     // Update is called once per frame
     void Update () {
+        Debug.Log("abc " + transform.position);
+
         onFlame();
 
         // Check if player move to new position
