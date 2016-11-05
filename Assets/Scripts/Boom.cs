@@ -23,7 +23,8 @@ public class Boom : MonoBehaviour {
 		flame.transform.position = transform.position;
 		for (int i = 1; i < radius; i++) {
 			GameObject go = mapManager [lc.X, lc.Y + i];
-			Vector3 pos = MapManager.mapLocationToVector3 (new MapLocation (lc.X, lc.Y + i));
+			MapLocation lc2 = new MapLocation (lc.X, lc.Y + i);
+			Vector3 pos = MapManager.mapLocationToVector3 (lc2);
 			if (go == null) {
 				((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
 			} else {
@@ -42,6 +43,7 @@ public class Boom : MonoBehaviour {
 					break;
 				case MapObjectType.BRICK_DESTROYABLE:
 					shouldBreak = true;
+					mapManager.removeBrick (lc2);
 					Destroy (go);
 					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
 					break;	
@@ -52,7 +54,8 @@ public class Boom : MonoBehaviour {
 		}
 		for (int i = 1; i < radius; i++) {
 			GameObject go = mapManager [lc.X, lc.Y - i];
-			Vector3 pos = MapManager.mapLocationToVector3 (new MapLocation (lc.X, lc.Y - i));
+			MapLocation lc2 = new MapLocation (lc.X, lc.Y - i);
+			Vector3 pos = MapManager.mapLocationToVector3 (lc2);
 			if (go == null) {
 				((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
 			} else {
@@ -71,6 +74,7 @@ public class Boom : MonoBehaviour {
 					break;
 				case MapObjectType.BRICK_DESTROYABLE:
 					shouldBreak = true;
+					mapManager.removeBrick (lc2);
 					Destroy (go);
 					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
 					break;	
@@ -82,7 +86,8 @@ public class Boom : MonoBehaviour {
 
 		for (int i = 1; i < radius; i++) {
 			GameObject go = mapManager [lc.X + i, lc.Y];
-			Vector3 pos = MapManager.mapLocationToVector3 (new MapLocation (lc.X + i, lc.Y));
+			MapLocation lc2 = new MapLocation (lc.X + i, lc.Y);
+			Vector3 pos = MapManager.mapLocationToVector3 (lc2);
 			if (go == null) {
 				((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
 			} else {
@@ -101,6 +106,7 @@ public class Boom : MonoBehaviour {
 					break;
 				case MapObjectType.BRICK_DESTROYABLE:
 					shouldBreak = true;
+					mapManager.removeBrick (lc2);
 					Destroy (go);
 					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
 					break;	
@@ -112,7 +118,8 @@ public class Boom : MonoBehaviour {
 
 		for (int i = 1; i < radius; i++) {
 			GameObject go = mapManager [lc.X - i, lc.Y];
-			Vector3 pos = MapManager.mapLocationToVector3 (new MapLocation (lc.X - i, lc.Y));
+			MapLocation lc2 = new MapLocation (lc.X - i, lc.Y);
+			Vector3 pos = MapManager.mapLocationToVector3 (lc2);
 			if (go == null) {
 				((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
 			} else {
@@ -131,6 +138,7 @@ public class Boom : MonoBehaviour {
 					break;
 				case MapObjectType.BRICK_DESTROYABLE:
 					shouldBreak = true;
+					mapManager.removeBrick (lc2);
 					Destroy (go);
 					((GameObject)Instantiate (Resources.Load ("flame"))).transform.position = pos;
 					break;	

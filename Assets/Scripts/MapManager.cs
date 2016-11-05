@@ -74,6 +74,8 @@ public class MapManager : MonoBehaviour {
 	private float cellSize;
 	private float cellWidth, cellHeight;
 
+	private bool[,] spaces = new bool[MAP_WIDTH,MAP_HEIGHT];
+
 
 	void Start() {
 		// init singleton instance
@@ -90,6 +92,10 @@ public class MapManager : MonoBehaviour {
 		gameBound.height = topLeft.transform.position.y - bottomRight.transform.position.y;
 		Debug.Log (gameBound);
 
+		// fill spaces: true
+		for (int i = 0; i < MAP_WIDTH; i++)
+			for (int j = 0; j < MAP_HEIGHT; j++)
+				spaces [i, j] = true;
 
 		cellWidth = gameBound.width / (float) (MAP_WIDTH - 1);
 		cellHeight = gameBound.height / (float) (MAP_HEIGHT - 1);
@@ -111,7 +117,6 @@ public class MapManager : MonoBehaviour {
 		booms = new List<GameObject>();
 		// create flame list as an empty list
 		flame = new List<GameObject>();
-
 
 		foreach (var listener in listeners) {
 			listener.onMapReady ();
@@ -140,12 +145,16 @@ public class MapManager : MonoBehaviour {
 
 	public void registerFlame(GameObject f) {
 		flame.Add (f);
+		MapLocation flameLc = getMapLocation (f);
+		spaces [flameLc.X, flameLc.Y] = false;
 		foreach (var listener in listeners)
 			listener.onMapChanged ();
 	}
 
 	public bool removeFlame(GameObject f) {
 		bool res = flame.Remove (f);
+		MapLocation flameLc = getMapLocation (f);
+		spaces [flameLc.X, flameLc.Y] = true;
 		foreach (var listener in listeners)
 			listener.onMapChanged ();
 		return res;
@@ -153,15 +162,29 @@ public class MapManager : MonoBehaviour {
 
     public void registerBoom(GameObject boom) {
 		booms.Add (boom);
+		MapLocation boomLc = getMapLocation (boom);
+		spaces [boomLc.X, boomLc.Y] = false;
 		foreach (var listener in listeners)
 			listener.onMapChanged ();
 	}
 
 	public bool removeBoom(GameObject boom) {
 		var res = booms.Remove (boom);
+		// boom is replaced by flame
+//		MapLocation boomLc = getMapLocation (boom);
+//		spaces [boomLc.X, boomLc.Y] = true;
 		foreach (var listener in listeners)
 			listener.onMapChanged ();
 		return res;
+	}
+
+	public void removeBrick(MapLocation brickLocation) {
+		bricks.Remove (brickLocation);
+		// brick is replaced by flames
+//		spaces [brickLocation.X, brickLocation.Y] = true;
+		// Dont trigger onMapChanged
+//		foreach (var listener in listeners)
+//			listener.onMapChanged ();
 	}
 
     public GameObject getPlayer()
@@ -204,8 +227,13 @@ public class MapManager : MonoBehaviour {
 		GameObject[] brickObjects = GameObject.FindGameObjectsWithTag ("brick");
 		foreach (GameObject brick in brickObjects) {
 			MapLocation location = vector3ToMapLocation (brick.transform.position);
+			spaces [location.X, location.Y] = false;
 			bricks [location] = brick;
 		}
+	}
+
+	public bool[,] getSpaces() {
+		return spaces;
 	}
 
 	public static MapLocation getMapLocation(GameObject gameObj) {
