@@ -50,12 +50,16 @@ public class Ghost : MonoBehaviour, MapManagerListener {
         }
 
         // implement floyd warshall algorithm
-        MapLocation temp = new MapLocation(12, 11);
+        MapLocation temp = new MapLocation(7, 11);
+        path.Add(temp);
+        temp = new MapLocation(9, 11);
         path.Add(temp);
     }
 
     private void move()
     {
+        Debug.Log("Ghost is moving");
+
         Vector3 temp = destination - transform.position;
         Vector2 move = new Vector2(
             temp.x * speed * Time.deltaTime * mapManager.defaultSpeed,
