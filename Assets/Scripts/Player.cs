@@ -15,6 +15,8 @@ public class Player : MonoBehaviour, MapManagerListener {
 	private Rigidbody2D rigidBody;
 
 
+
+
 	// Use this for initialization
 	void Start () {
 		spriteRenderer = GetComponent<SpriteRenderer>();
