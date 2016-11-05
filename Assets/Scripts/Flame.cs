@@ -7,13 +7,15 @@ public class Flame : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		MapManager.getInstance ().registerFlame (this.gameObject);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		flameDuration -= Time.deltaTime;
-		if (flameDuration <= 0)
+		if (flameDuration <= 0) {
+			MapManager.getInstance ().removeFlame (this.gameObject);
 			Destroy (this.gameObject);
+		}
 	}
 }
