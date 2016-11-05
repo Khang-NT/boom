@@ -23,12 +23,11 @@ public class Player : MonoBehaviour, MapManagerListener {
 	}
 
 	public void onMapReady() {
-		MapLocation lc = MapManager.getMapLocation (gameObject);
-		Vector3 position = MapManager.mapLocationToVector3 (lc);
+		// empty
 	}
 
 	public void onMapChanged() {
-
+		// empty
 	}
 
 	protected void setState(int state) {

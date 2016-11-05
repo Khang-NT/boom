@@ -37,7 +37,6 @@ public class MapLocation {
 	}
 }
 
-// trên map thì mình có mấy loại này thôi
 public enum MapObjectType {
 	BRICK_UNDESTROYABLE,
 	BRICK_DESTROYABLE,
@@ -131,9 +130,7 @@ public class MapManager : MonoBehaviour {
 		listeners.Remove (listener);
 	}
 
-    // này là get ra  list boom, 
-    // khi t viết thằng player, nếu đặt boom thì t sẽ gọi
-	public List<GameObject> getBooms() {
+    public List<GameObject> getBooms() {
 		return booms;
 	}
 
@@ -154,10 +151,7 @@ public class MapManager : MonoBehaviour {
 		return res;
 	}
 
-    // nói chung map manager nó sẽ biết dc hết đối tượng trên bản đồ
-    // chỉ trừ mấy cái item thôi, cái đó t handle trong thằng player nên khỏi quan tâm
-    //
-	public void registerBoom(GameObject boom) {
+    public void registerBoom(GameObject boom) {
 		booms.Add (boom);
 		foreach (var listener in listeners)
 			listener.onMapChanged ();
@@ -218,8 +212,7 @@ public class MapManager : MonoBehaviour {
 		return vector3ToMapLocation (gameObj.transform.position);
 	}
 
-    // này để check xem cái game object đó là cái gì
-	public static MapObjectType getTypeOf(GameObject go) {
+    public static MapObjectType getTypeOf(GameObject go) {
 		if (go.tag.Equals ("brick")) {
 			if (go.name.StartsWith ("destroyable"))
 				return MapObjectType.BRICK_DESTROYABLE;
@@ -239,21 +232,12 @@ public class MapManager : MonoBehaviour {
 
 
 
-    // hai cái này cũng quan trong, ví dụ như ông viết cái script ghost, muốn
-    // biết 1 cái game object bất kì ở tọa độ nào thì dùng hàm này
-	public static MapLocation vector3ToMapLocation(Vector3 position) {
-		// Debug.Log ((position.x - sInstance.gameBound.x) / sInstance.cellWidth);
+    public static MapLocation vector3ToMapLocation(Vector3 position) {
 		int x = Mathf.RoundToInt((position.x - sInstance.gameBound.x) / sInstance.cellWidth);
-		// Debug.Log (x);
-		// Debug.Log ("--");
-		// Debug.Log((position.y - sInstance.gameBound.y) / sInstance.cellHeight);
 		int y = Mathf.RoundToInt((position.y - sInstance.gameBound.y) / sInstance.cellHeight);
-		// Debug.Log (y);
 		return new MapLocation (x >= MAP_WIDTH ? MAP_WIDTH - 1 : x, y >= MAP_HEIGHT ? MAP_HEIGHT - 1 : y);
 	}
 
-    // này chuyển từ tọa độ index x y trong map sang tọa độ x y trong unity
-    // 
 	public static Vector3 mapLocationToVector3(MapLocation lc) {
 		return new Vector3 (
 			sInstance.gameBound.x + lc.X * (sInstance.gameBound.width / (float) (MAP_WIDTH - 1)),
