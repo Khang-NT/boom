@@ -13,6 +13,7 @@ public class Boom : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		mapManager = MapManager.getInstance ();
+		mapManager.registerBoom (this.gameObject);
 		boxCollider = GetComponent<BoxCollider2D> ();
 	}
 
@@ -150,6 +151,7 @@ public class Boom : MonoBehaviour {
 
 		time -= Time.deltaTime;
 		if (time <= 0) {
+			mapManager.removeBoom (this.gameObject);
 			onExploded ();
 			Destroy (gameObject);
 		}

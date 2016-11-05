@@ -143,10 +143,15 @@ public class MapManager : MonoBehaviour {
 
 	public void registerFlame(GameObject f) {
 		flame.Add (f);
+		foreach (var listener in listeners)
+			listener.onMapChanged ();
 	}
 
 	public bool removeFlame(GameObject f) {
-		return flame.Remove (f);
+		bool res = flame.Remove (f);
+		foreach (var listener in listeners)
+			listener.onMapChanged ();
+		return res;
 	}
 
     // nói chung map manager nó sẽ biết dc hết đối tượng trên bản đồ
@@ -154,10 +159,15 @@ public class MapManager : MonoBehaviour {
     //
 	public void registerBoom(GameObject boom) {
 		booms.Add (boom);
+		foreach (var listener in listeners)
+			listener.onMapChanged ();
 	}
 
 	public bool removeBoom(GameObject boom) {
-		return booms.Remove (boom);
+		var res = booms.Remove (boom);
+		foreach (var listener in listeners)
+			listener.onMapChanged ();
+		return res;
 	}
 
     public GameObject getPlayer()
