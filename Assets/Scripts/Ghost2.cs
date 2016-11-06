@@ -12,7 +12,7 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 	public float speed;
 	public int smartness = 1;
 
-	private Rigidbody2D rgBody;
+//	private Rigidbody2D rgBody;
 	private bool requireUpdate = false;
 	private float requireUpdateTimeOut;
 	private Vector3 playerTracking;
@@ -20,7 +20,7 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 
 	// Use this for initialization
 	void Start () {
-		rgBody = GetComponent<Rigidbody2D> ();
+//		rgBody = GetComponent<Rigidbody2D> ();
 
 		mapManager.addListener (this);
 	}
