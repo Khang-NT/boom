@@ -10,6 +10,7 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 
 	public MapManager mapManager;
 	public float speed;
+	public int smartness = 1;
 
 	private Rigidbody2D rgBody;
 	private bool requireUpdate = false;
@@ -36,8 +37,12 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 
 	public void onMapChanged()
 	{
-		print ("onMapChanged()");
 		requireToUpdate ();
+	}
+
+	void OnTriggerEnter2D(Collider2D col) {
+		print (col.gameObject.name);
+		print (col.gameObject.tag);
 	}
 	
 	// Update is called once per frame
@@ -53,8 +58,14 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 			else {
 				requireUpdate = false;
 				MapLocation startPos = MapManager.getMapLocation (gameObject);
-				MapLocation targetPos = MapManager.getMapLocation (mapManager.getPlayer ());
-				findShortestPath (startPos, targetPos);
+				if (smartness < 3 || smartness == 4 || mapManager.getBooms ().Count == 0) {
+					MapLocation targetPos = MapManager.getMapLocation (mapManager.getPlayer ());
+					findShortestPath (startPos, targetPos);
+					if (smartness == 4 && path == null)
+						findSafestPlace (startPos);
+				} else {
+					findSafestPlace (startPos);
+				}
 			}
 		}
 		if (path == null || path.Count == 0) {
@@ -93,9 +104,26 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 			Node currentNode = openSet.RemoveFirst();
 			closedSet.Add(currentNode);
 
+			if (smartness == 4 && !currentNode.Equals(startNode)) {
+				bool isWalkable = true;
+				foreach (var b in mapManager.getBooms()) {
+					Boom boom = b.GetComponent<Boom> ();
+					MapLocation lc = MapManager.getMapLocation (b);
+					if ((Math.Abs (lc.X - currentNode.X) < boom.radius && (lc.Y == currentNode.Y)) ||
+					    Math.Abs (lc.Y - currentNode.Y) < boom.radius && (lc.X == currentNode.X)) {
+						isWalkable = false;
+						break;
+					} else {
+						continue;
+					}
+				}
+				if (!isWalkable)
+					continue;
+			}
+
 			if (currentNode.X == targetNode.X && currentNode.Y == targetNode.Y) {
 				sw.Stop ();
-				print ("Path found: " + sw.ElapsedMilliseconds + " ms");
+//				print ("Path found: " + sw.ElapsedMilliseconds + " ms");
 				retracePath(startNode,currentNode);
 				return;
 			}
@@ -117,7 +145,65 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 			}
 		}
 		sw.Stop ();
-		print ("Path not found: " + sw.ElapsedMilliseconds + " ms");
+//		print ("Path not found: " + sw.ElapsedMilliseconds + " ms");
+		loadShortestMap (null);
+	}
+
+	void findSafestPlace(MapLocation startPos) {
+		Stopwatch sw = new Stopwatch ();
+		sw.Start ();
+		Node startNode = new Node (startPos);
+		List<MapLocation> boomLcs = new List<MapLocation> ();
+		foreach (var go in mapManager.getBooms()) {
+			boomLcs.Add (MapManager.getMapLocation (go));
+		}
+
+		if (boomLcs.Count == 0) {
+			loadShortestMap (null);
+			return;
+		}
+
+		Heap<Node> openSet = new Heap<Node>(CELL_COUNT);
+		HashSet<Node> closedSet = new HashSet<Node>();
+		openSet.add(startNode);
+
+		while (openSet.size () > 0) {
+			Node currentNode = openSet.RemoveFirst();
+			closedSet.Add(currentNode);
+
+			bool isSafe = true;
+			foreach (var lc in boomLcs)
+				if (currentNode.X != lc.X && currentNode.Y != lc.Y)
+					continue;
+				else {
+					isSafe = false; break;
+				}
+			if (isSafe) {
+				sw.Stop ();
+				//				print ("Path found: " + sw.ElapsedMilliseconds + " ms");
+				retracePath(startNode,currentNode);
+				return;
+			}
+
+			foreach (Node neighbour in getNeighbours(currentNode)) {
+				if (closedSet.Contains(neighbour)) {
+					continue;
+				}
+
+				int newMovementCostToNeighbour = currentNode.gCost + getDistance(currentNode, neighbour);
+				if (newMovementCostToNeighbour < neighbour.gCost || !openSet.contain(neighbour)) {
+					neighbour.gCost = newMovementCostToNeighbour;
+					neighbour.hCost = 1;
+					neighbour.parent = currentNode;
+
+					if (!openSet.contain(neighbour))
+						openSet.add(neighbour);
+				}
+			}
+		}
+
+		sw.Stop ();
+		//		print ("Path not found: " + sw.ElapsedMilliseconds + " ms");
 		loadShortestMap (null);
 	}
 
@@ -132,6 +218,10 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 
 	List<Node> getNeighbours(Node currentNode) {
 		bool[,] spaces = mapManager.getSpaces ();
+		MapLocation lc = MapManager.getMapLocation (mapManager.getPlayer ());
+		bool bk = spaces [lc.X, lc.Y];
+		if (smartness == 1)
+			spaces [lc.X, lc.Y] = true;
 		List<Node> neighbours = new List<Node> ();
 		bool left = false, top = false, bottom = false, right = false;
 		for (int i = -1; i <= 1; i++)
@@ -164,18 +254,19 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 			neighbours.Add (new Node (currentNode.X - 1, currentNode.Y - 1));
 		if (bottom && right && spaces [currentNode.X + 1, currentNode.Y - 1])
 			neighbours.Add (new Node (currentNode.X + 1, currentNode.Y - 1));
+		if (smartness == 1)
+			spaces [lc.X, lc.Y] = bk;
 		return neighbours;
 	}
 
 	void retracePath(Node startNode, Node endNode) {
-		print (startNode);
-		print (endNode);
+//		print (startNode);
+//		print (endNode);
 		List<MapLocation> path = new List<MapLocation>();
 		Node currentNode = endNode;
 
 		while (currentNode.parent != null) {
 			path.Add(currentNode);
-			print (currentNode.ToString ());
 			currentNode = currentNode.parent;
 		}
 //		path.Reverse();
