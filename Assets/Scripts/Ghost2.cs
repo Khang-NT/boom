@@ -17,7 +17,7 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 	private float requireUpdateTimeOut;
 	private Vector3 playerTracking;
 	private List<MapLocation> path;
-
+	private bool stopped = false;
 	// Use this for initialization
 	void Start () {
 //		rgBody = GetComponent<Rigidbody2D> ();
@@ -40,6 +40,14 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 		requireToUpdate ();
 	}
 
+	public void onAllGhostsDied() {
+
+	}
+
+	public void onPlayerDied() {
+		stopped = true;
+	}
+
 	void OnTriggerEnter2D(Collider2D col) {
 		print (col.gameObject.name);
 		print (col.gameObject.tag);
@@ -47,39 +55,41 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Vector3.Distance (mapManager.getPlayer ().transform.position, playerTracking) > mapManager.getCellSize ()) {
-			playerTracking = mapManager.getPlayer ().transform.position;
-			requireUpdate = true;
-		}
+		if (!stopped) {
+			if (Vector3.Distance (mapManager.getPlayer ().transform.position, playerTracking) > mapManager.getCellSize ()) {
+				playerTracking = mapManager.getPlayer ().transform.position;
+				requireUpdate = true;
+			}
 
-		if (requireUpdate) {
-			if (requireUpdateTimeOut > 0)
-				requireUpdateTimeOut -= Time.deltaTime;
-			else {
-				requireUpdate = false;
-				MapLocation startPos = MapManager.getMapLocation (gameObject);
-				if (smartness < 3 || smartness == 4 || mapManager.getBooms ().Count == 0) {
-					MapLocation targetPos = MapManager.getMapLocation (mapManager.getPlayer ());
-					findShortestPath (startPos, targetPos);
-					if (smartness == 4 && path == null)
+			if (requireUpdate) {
+				if (requireUpdateTimeOut > 0)
+					requireUpdateTimeOut -= Time.deltaTime;
+				else {
+					requireUpdate = false;
+					MapLocation startPos = MapManager.getMapLocation (gameObject);
+					if (smartness < 3 || smartness == 4 || mapManager.getBooms ().Count == 0) {
+						MapLocation targetPos = MapManager.getMapLocation (mapManager.getPlayer ());
+						findShortestPath (startPos, targetPos);
+						if (smartness == 4 && path == null)
+							findSafestPlace (startPos);
+					} else {
 						findSafestPlace (startPos);
-				} else {
-					findSafestPlace (startPos);
+					}
 				}
 			}
-		}
-		if (path == null || path.Count == 0) {
+			if (path == null || path.Count == 0) {
 				// stop moving
-		} else {
-			Vector3 target = MapManager.mapLocationToVector3(path [path.Count - 1]);
-			Vector3 move = target - transform.position;
-			float maxDistance = speed * Time.deltaTime;
-			if (move.sqrMagnitude <= maxDistance) {
-				transform.position = target;
-				path.RemoveAt (path.Count - 1);
 			} else {
-				move = move.normalized * speed * Time.deltaTime;
-				transform.Translate (move);
+				Vector3 target = MapManager.mapLocationToVector3 (path [path.Count - 1]);
+				Vector3 move = target - transform.position;
+				float maxDistance = speed * Time.deltaTime;
+				if (move.sqrMagnitude <= maxDistance) {
+					transform.position = target;
+					path.RemoveAt (path.Count - 1);
+				} else {
+					move = move.normalized * speed * Time.deltaTime;
+					transform.Translate (move);
+				}
 			}
 		}
 	}
