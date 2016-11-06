@@ -81,10 +81,11 @@ public class Ghost : MonoBehaviour, MapManagerListener {
 
         Debug.Log("temp " + temp);
 
-        Vector2 move = new Vector2(
+        Vector3 move = new Vector3(
             temp.x * speed * Time.deltaTime * mapManager.defaultSpeed,
-            temp.y * speed * Time.deltaTime * mapManager.defaultSpeed);
-        rigidBody.velocity = move;
+            temp.y * speed * Time.deltaTime * mapManager.defaultSpeed,
+            0);
+        transform.Translate(move);
     }
 
     // Use this for initialization
