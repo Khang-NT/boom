@@ -306,11 +306,6 @@ public class Node : MapLocation, IHeadItem<Node> {
 		}
 	}
 
-	public override bool Equals (object o)
-	{
-		return base.Equals (o);
-	}
-
 	public int CompareTo(Node nodeToCompare) {
 		int compare = fCost.CompareTo(nodeToCompare.fCost);
 		if (compare == 0) {
