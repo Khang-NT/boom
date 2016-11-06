@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Ghost : MonoBehaviour, MapManagerListener {
     public MapManager mapManager;
     private Rigidbody2D rigidBody;
+    public GameObject player;
 
     // ghost attribute
     public float heart;
@@ -17,6 +18,7 @@ public class Ghost : MonoBehaviour, MapManagerListener {
 
     private bool ready;
     private bool changed;
+    private MapLocation player_last_position;
 
     private List<MapLocation> path = new List<MapLocation>();
     private Vector3 destination;
@@ -26,7 +28,7 @@ public class Ghost : MonoBehaviour, MapManagerListener {
     // Check if ghost is ready to move to next position int path
     private bool check_ready()
     {
-        Debug.Log("Check if ghost ready : " + Vector3.Distance(transform.position, destination));
+        // Debug.Log("Check if ghost ready : " + Vector3.Distance(transform.position, destination));
         if (Vector3.Distance(transform.position, destination) <= PIVOT)
         {
             ready = true;
@@ -42,6 +44,7 @@ public class Ghost : MonoBehaviour, MapManagerListener {
     // Find min path from ghost to player
     private void pathFinding()
     {
+        // Ham nay se handle truong hop con ma khong di qua duoc cac vat can luon
         path.Clear();
         List<GameObject> obstructions;
         if (smartness == 2)
@@ -56,11 +59,28 @@ public class Ghost : MonoBehaviour, MapManagerListener {
         path.Add(temp);
     }
 
+    // on flame collision handler
+    private void onFlame()
+    {
+        List<GameObject> flames = mapManager.getFlame();
+        foreach (GameObject flame in flames)
+        {
+            MapLocation flameTmp = MapManager.vector3ToMapLocation(flame.transform.position);
+            MapLocation ghostTmp = MapManager.vector3ToMapLocation(transform.position);
+            int x = ghostTmp.X - flameTmp.X;
+            int y = ghostTmp.Y - flameTmp.Y;
+            if (x == 1 && y == 0) Destroy(this.gameObject);
+        }
+    }
+
     private void move()
     {
         Debug.Log("Ghost is moving");
 
         Vector3 temp = destination - transform.position;
+
+        Debug.Log("temp " + temp);
+
         Vector2 move = new Vector2(
             temp.x * speed * Time.deltaTime * mapManager.defaultSpeed,
             temp.y * speed * Time.deltaTime * mapManager.defaultSpeed);
@@ -75,6 +95,8 @@ public class Ghost : MonoBehaviour, MapManagerListener {
 
 	public void onMapReady() {
         Debug.Log("Init ghost value");
+        player = mapManager.getPlayer();
+        player_last_position = MapManager.vector3ToMapLocation(player.transform.position);
 
         booms = mapManager.getBooms();
         flames = mapManager.getFlame();
@@ -85,21 +107,42 @@ public class Ghost : MonoBehaviour, MapManagerListener {
         destination = transform.position;
     }
 
+    // obstructions on map change handler
     public void onMapChanged()
     {
+        Debug.Log("Map changed");
         booms = mapManager.getBooms();
         flames = mapManager.getFlame();
         changed = true;
     }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
+        Debug.Log("abc " + transform.position);
+
+        onFlame();
+
+        // Check if player move to new position
+        MapLocation player_current_position = MapManager.vector3ToMapLocation(player.transform.position);
+
+        if (player_current_position.X != player_last_position.X
+            || player_current_position.Y != player_last_position.Y)
+        {
+            Debug.Log("Player move to new position");
+
+            player_last_position = player_current_position;
+            changed = true;
+        }
+
         // Find new path when map changed
         if (changed == true)
         {
-            changed = false;
+            Debug.Log("Map thay doi");
             if (check_ready() == true)
             {
+                Debug.Log("Ma da di chuyen xong, tim duong moi");
+
+                changed = false;
                 pathFinding();
             }
         }
@@ -120,7 +163,7 @@ public class Ghost : MonoBehaviour, MapManagerListener {
             }
             else
             {
-                // di random 1 o xung quanh
+                // Dung im khong di chuyen
             }
         }
         else
