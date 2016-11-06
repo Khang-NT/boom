@@ -9,4 +9,8 @@ public interface IHpValue {
 	int MaxHp {
 		get;
 	}
+
+	bool IsUnEffect {
+		get;
+	}
 }
