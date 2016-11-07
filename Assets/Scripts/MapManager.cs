@@ -78,6 +78,7 @@ public class MapManager : MonoBehaviour {
 
 	private bool[,] spaces = new bool[MAP_WIDTH,MAP_HEIGHT];
 
+	void Awake (){ Screen.SetResolution(800, 800, false); }
 
 	void Start() {
 		// init singleton instance
