@@ -14,7 +14,8 @@ public class HPBar : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.defaultXScale = transform.localScale.x;
-		this.hpValue = (IHpValue)hpComponent;
+		this.hpValue = (IHpValue) hpComponent;
+		this.setIsUnEffect (true);
 	}
 	
 	// Update is called once per frame
@@ -34,14 +35,14 @@ public class HPBar : MonoBehaviour {
 			Vector3 pos = this.transform.position;
 			pos.x = objectToFollow.GetComponent<Renderer> ().bounds.min.x;
 			pos.y = objectToFollow.GetComponent<Renderer> ().bounds.max.y;
+			print (hpValue.Hp);
 			this.transform.position = pos;
 			Vector3 scale = this.transform.localScale;
 			scale.x = (defaultXScale * hpValue.Hp) / hpValue.MaxHp;
 			this.transform.localScale = scale;
 			setIsUnEffect (hpValue.IsUnEffect);
-			GetComponent<SpriteRenderer> ().enabled = true;
 		} else {
-			GetComponent<SpriteRenderer> ().enabled = false;
+			Destroy (this.gameObject);
 		}
 	}
 }
