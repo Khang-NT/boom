@@ -92,7 +92,7 @@ public abstract class GhostBase : MonoBehaviour, MapManagerListener, IHpValue {
 				Vector3 move = target - transform.position;
 				float maxDistance = speed * Time.deltaTime;
 				if (move.sqrMagnitude <= maxDistance) {
-					transform.position = target;
+					transform.Translate (move);
 					path.RemoveAt (path.Count - 1);
 				} else {
 					move = move.normalized * speed * Time.deltaTime;
