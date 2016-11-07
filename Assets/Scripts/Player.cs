@@ -9,7 +9,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	private SpriteRenderer spriteRenderer;
 	private int state = -1;
 	public List<Sprite> playerStates;
-	public float speed = 30f;
+	private float speed = 30f;
 	public int maxBoomCount = 1;
 	public int boomRadius = 2;
 
@@ -17,6 +17,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	private int hp;
 	private bool stopped = false;
 	private float timer1;
+	private float bufSpeedTime = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -88,6 +89,25 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 		}
 	}
 
+	void OnTriggerEnter2D (Collider2D col) {
+		if (col.gameObject.tag.Equals ("item_speed")) {
+			bufSpeedTime = 5;	// 5 secs
+			Destroy (col.gameObject);
+		} else if (col.gameObject.tag.Equals ("item_heart")) {
+			GamePlay.getInstance ().Heart++;
+			Destroy (col.gameObject);
+		} else if (col.gameObject.tag.Equals ("item_flame")) {
+			boomRadius++;
+			Destroy (col.gameObject);
+		} else if (col.gameObject.tag.Equals ("item_booms")) {
+			maxBoomCount++;
+			Destroy (col.gameObject);
+		} else if (col.gameObject.tag.Equals ("item_hp")) {
+			this.hp = MAX_HP;
+			Destroy(col.gameObject);
+		}
+	}
+
 	protected void setState(int state) {
 		if (this.state != state) {
 			this.state = state;
@@ -109,6 +129,12 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	
 	// Update is called once per frame
 	void Update () {
+		if (bufSpeedTime > 0) {
+			speed = 40f;
+			bufSpeedTime -= Time.deltaTime;
+		} else {
+			speed = 30f;
+		}
 		if (timer1 > 0)
 			timer1 -= Time.deltaTime;
 		if (!stopped) {
