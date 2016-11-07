@@ -34,7 +34,8 @@ public abstract class GhostBase : MonoBehaviour, MapManagerListener, IHpValue {
 
 	public void onMapChanged()
 	{
-		requireToUpdate ();
+		if (gameObject != null)
+			requireToUpdate ();
 	}
 
 	public void onAllGhostsDied() {
@@ -45,10 +46,11 @@ public abstract class GhostBase : MonoBehaviour, MapManagerListener, IHpValue {
 		stopped = true;
 	}
 
-	void OnTriggerEnter2D(Collider2D col) {
+	void OnCollisionEnter2D(Collision2D col) {
 		if (col.gameObject.tag.Equals ("flame")) {
 			this.hp--;
 			if (this.hp == 0) {
+				mapManager.removeListener (this);
 				mapManager.removeGhost (this.gameObject);
 				Destroy (this.gameObject);
 			}
@@ -68,7 +70,7 @@ public abstract class GhostBase : MonoBehaviour, MapManagerListener, IHpValue {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	public void Update () {
 		if (!stopped) {
 			if (Vector3.Distance (mapManager.getPlayer ().transform.position, playerTracking) > mapManager.getCellSize ()) {
 				playerTracking = mapManager.getPlayer ().transform.position;
