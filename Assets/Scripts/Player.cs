@@ -69,6 +69,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 			if (this.hp == 0) {
 				GamePlay.getInstance ().Heart--;
 				if (GamePlay.getInstance ().Heart == 0) {
+					mapManager.removeListener (this);
 					mapManager.removePlayer ();
 					Destroy (this.gameObject);
 				} else {
