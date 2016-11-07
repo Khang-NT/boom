@@ -222,18 +222,18 @@ public class MapManager : MonoBehaviour {
 	public GameObject getGameObjectAt(MapLocation location) {
 		if (bricks.ContainsKey (location))
 			return bricks [location];
-		if (player != null && getMapLocation (player) == location)
+		if (player != null && getMapLocation (player).Equals(location))
 			return player;
 		foreach (var ghost in ghosts) {
-			if (getMapLocation (ghost) == location)
+			if (getMapLocation (ghost).Equals(location))
 				return ghost;
 		}
 		foreach (var boom in booms) {
-			if (getMapLocation (boom) == location)
+			if (getMapLocation (boom).Equals(location))
 				return boom;
 		}
 		foreach (var f in flame) {
-			if (getMapLocation (f) == location)
+			if (getMapLocation (f).Equals(location))
 				return f;
 		}
 		return null;
@@ -272,6 +272,8 @@ public class MapManager : MonoBehaviour {
 			return MapObjectType.ITEM;
 		if (go.name.Equals("player"))
 			return MapObjectType.PLAYER;
+		if (go.tag.Equals ("flame"))
+			return MapObjectType.FLAME;
 		throw new UnityException ("Unknown game object type in map: " + go.ToString());
 	}
 
