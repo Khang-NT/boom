@@ -23,6 +23,7 @@ public class GamePlay {
     string playerName;
 	int highScore;
 	string highScorePlayerName;
+	bool win;
 
     protected GamePlay()
     {
@@ -72,6 +73,16 @@ public class GamePlay {
 				this.highScorePlayerName = playerName;
 				saveDataToFile ();
 			}
+		}
+	}
+
+	public bool Win {
+		get {
+			return win;
+		}
+
+		set {
+			win = value;
 		}
 	}
 
