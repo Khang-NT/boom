@@ -11,8 +11,10 @@ public class EndGameController : MonoBehaviour {
 		GamePlay gamePlay = GamePlay.getInstance ();
 		GameObject.Find("GameResult").GetComponent<Text>().text = gamePlay.Win ? "Win!!!" : "GameOver";
 		GameObject.Find ("Score").GetComponent<Text> ().text = gamePlay.Score.ToString ();
-		GameObject.Find ("PlayerName").GetComponent<Text> ().text = gamePlay.PlayerName;
-		GameObject.Find ("HighScore").SetActive (gamePlay.Score == gamePlay.HighScore);
+		bool newHighScore = gamePlay.Score == gamePlay.HighScore;
+		GameObject.Find ("HighScore").SetActive (newHighScore);
+		if (newHighScore)
+			GameObject.Find ("PlayerName").GetComponent<Text> ().text = gamePlay.PlayerName;
 	}
 	
 	public void newGame() {
