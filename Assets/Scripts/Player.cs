@@ -7,9 +7,11 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	public MapManager mapManager;
 
 	private SpriteRenderer spriteRenderer;
-	public int state;
+	private int state = -1;
 	public List<Sprite> playerStates;
-	public float speed = 1f;
+	public float speed = 30f;
+	public int maxBoomCount = 1;
+	public int boomRadius = 2;
 
 	private Rigidbody2D rigidBody;
 	private int hp;
@@ -94,9 +96,15 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	}
 
 	private void createBoom() {
-		Vector3 position = MapManager.mapLocationToVector3 (MapManager.getMapLocation(gameObject));
-		GameObject monster = (GameObject)Instantiate (Resources.Load ("bomb"));
-		monster.transform.position = position;
+		MapLocation lc = MapManager.getMapLocation (gameObject);
+		GameObject tmp = mapManager [lc.X, lc.Y];
+		if (mapManager.getBooms().Count < maxBoomCount && tmp != null && tmp.name.Equals ("player")) {
+			Vector3 position = MapManager.mapLocationToVector3 (lc);
+			GameObject monster = (GameObject)Instantiate (Resources.Load ("bomb"));
+			mapManager.registerBoom (monster);
+			monster.GetComponent<Boom> ().radius = boomRadius;
+			monster.transform.position = position;
+		}
 	}
 	
 	// Update is called once per frame
