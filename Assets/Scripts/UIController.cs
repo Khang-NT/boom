@@ -13,7 +13,10 @@ public class UIController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		heart.text = GamePlay.getInstance ().Heart + "";
-		score.text = GamePlay.getInstance ().Score + "";
+		var gamePlay = GamePlay.getInstance ();
+		heart.text = gamePlay.Heart + "";
+		score.text = gamePlay.Score + "";
+		if (gamePlay.Score > 0 && gamePlay.Score == gamePlay.HighScore)
+			score.color = Color.green;
 	}
 }
