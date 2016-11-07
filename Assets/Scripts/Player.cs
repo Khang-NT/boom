@@ -7,14 +7,19 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	public MapManager mapManager;
 
 	private SpriteRenderer spriteRenderer;
-	public int state;
+	private int state = -1;
 	public List<Sprite> playerStates;
-	public float speed = 1f;
+	private float speed = 30f;
+	public int maxBoomCount = 1;
+	public int boomRadius = 2;
+	public int finalX, finalY;
 
 	private Rigidbody2D rigidBody;
 	private int hp;
 	private bool stopped = false;
+	private bool allGhostsDied = false;
 	private float timer1;
+	private float bufSpeedTime = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -52,7 +57,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	}
 
 	public void onAllGhostsDied() {
-		stopped = true;
+		allGhostsDied = true;
 	}
 
 	public void onPlayerDied() {
@@ -69,6 +74,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 			if (this.hp == 0) {
 				GamePlay.getInstance ().Heart--;
 				if (GamePlay.getInstance ().Heart == 0) {
+					mapManager.removeListener (this);
 					mapManager.removePlayer ();
 					Destroy (this.gameObject);
 				} else {
@@ -85,6 +91,25 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 		}
 	}
 
+	void OnTriggerEnter2D (Collider2D col) {
+		if (col.gameObject.tag.Equals ("item_speed")) {
+			bufSpeedTime = 5;	// 5 secs
+			Destroy (col.gameObject);
+		} else if (col.gameObject.tag.Equals ("item_heart")) {
+			GamePlay.getInstance ().Heart++;
+			Destroy (col.gameObject);
+		} else if (col.gameObject.tag.Equals ("item_flame")) {
+			boomRadius++;
+			Destroy (col.gameObject);
+		} else if (col.gameObject.tag.Equals ("item_booms")) {
+			maxBoomCount++;
+			Destroy (col.gameObject);
+		} else if (col.gameObject.tag.Equals ("item_hp")) {
+			this.hp = MAX_HP;
+			Destroy(col.gameObject);
+		}
+	}
+
 	protected void setState(int state) {
 		if (this.state != state) {
 			this.state = state;
@@ -93,15 +118,33 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	}
 
 	private void createBoom() {
-		Vector3 position = MapManager.mapLocationToVector3 (MapManager.getMapLocation(gameObject));
-		GameObject monster = (GameObject)Instantiate (Resources.Load ("bomb"));
-		monster.transform.position = position;
+		MapLocation lc = MapManager.getMapLocation (gameObject);
+		GameObject tmp = mapManager [lc.X, lc.Y];
+		if (mapManager.getBooms().Count < maxBoomCount && tmp != null && tmp.name.Equals ("player")) {
+			Vector3 position = MapManager.mapLocationToVector3 (lc);
+			GameObject monster = (GameObject)Instantiate (Resources.Load ("bomb"));
+			mapManager.registerBoom (monster);
+			monster.GetComponent<Boom> ().radius = boomRadius;
+			monster.transform.position = position;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (bufSpeedTime > 0) {
+			speed = 40f;
+			bufSpeedTime -= Time.deltaTime;
+		} else {
+			speed = 30f;
+		}
 		if (timer1 > 0)
 			timer1 -= Time.deltaTime;
+
+		if (allGhostsDied && !stopped) {
+			MapLocation lc = MapManager.getMapLocation (gameObject);
+			stopped = lc.X == finalX && lc.Y == finalY;
+		}
+
 		if (!stopped) {
 			float y = Input.GetAxis ("Vertical");
 			float x = Input.GetAxis ("Horizontal");

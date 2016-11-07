@@ -13,7 +13,7 @@ public class Boom : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		mapManager = MapManager.getInstance ();
-		mapManager.registerBoom (this.gameObject);
+//		mapManager.registerBoom (this.gameObject); playe will do this stuff
 		boxCollider = GetComponent<BoxCollider2D> ();
 	}
 
