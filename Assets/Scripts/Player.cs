@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	private static readonly int MAX_HP = 3;
@@ -20,7 +21,8 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	private bool allGhostsDied = false;
 	private float timer1;
 	private float bufSpeedTime = 0;
-
+	private float nextBoardDelay = 3;
+	private bool win = true;
 	// Use this for initialization
 	void Start () {
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -76,7 +78,9 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 				if (GamePlay.getInstance ().Heart == 0) {
 					mapManager.removeListener (this);
 					mapManager.removePlayer ();
-					Destroy (this.gameObject);
+					win = false;
+					spriteRenderer.enabled = false;
+					stopped = true;
 				} else {
 					MapLocation lc = new MapLocation (0, 0);
 					do {
@@ -174,6 +178,15 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 				createBoom ();
 		} else {
 			setState (0);
+			if (nextBoardDelay > 0) {
+				nextBoardDelay -= Time.deltaTime;
+			} else {
+				if (win)
+					GamePlay.getInstance ().BoardId++;
+				else
+					GamePlay.getInstance ().BoardId = SceneManager.sceneCountInBuildSettings - 1;
+				SceneManager.LoadScene (GamePlay.getInstance ().BoardId);
+			}
 		}
 	}
 }
