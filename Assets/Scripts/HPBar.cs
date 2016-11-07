@@ -35,7 +35,6 @@ public class HPBar : MonoBehaviour {
 			Vector3 pos = this.transform.position;
 			pos.x = objectToFollow.GetComponent<Renderer> ().bounds.min.x;
 			pos.y = objectToFollow.GetComponent<Renderer> ().bounds.max.y;
-			print (hpValue.Hp);
 			this.transform.position = pos;
 			Vector3 scale = this.transform.localScale;
 			scale.x = (defaultXScale * hpValue.Hp) / hpValue.MaxHp;

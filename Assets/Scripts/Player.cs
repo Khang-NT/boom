@@ -12,10 +12,12 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	private float speed = 30f;
 	public int maxBoomCount = 1;
 	public int boomRadius = 2;
+	public int finalX, finalY;
 
 	private Rigidbody2D rigidBody;
 	private int hp;
 	private bool stopped = false;
+	private bool allGhostsDied = false;
 	private float timer1;
 	private float bufSpeedTime = 0;
 
@@ -55,7 +57,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	}
 
 	public void onAllGhostsDied() {
-		stopped = true;
+		allGhostsDied = true;
 	}
 
 	public void onPlayerDied() {
@@ -137,6 +139,12 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 		}
 		if (timer1 > 0)
 			timer1 -= Time.deltaTime;
+
+		if (allGhostsDied && !stopped) {
+			MapLocation lc = MapManager.getMapLocation (gameObject);
+			stopped = lc.X == finalX && lc.Y == finalY;
+		}
+
 		if (!stopped) {
 			float y = Input.GetAxis ("Vertical");
 			float x = Input.GetAxis ("Horizontal");
