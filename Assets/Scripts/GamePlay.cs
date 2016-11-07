@@ -6,6 +6,7 @@ public class GamePlay {
     private static GamePlay sInstance;
 	private static readonly string FILE_NAME = "gameplay.data";
 
+
     public static GamePlay getInstance()
     {
         if (sInstance == null)

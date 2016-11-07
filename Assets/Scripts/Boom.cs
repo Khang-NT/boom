@@ -152,7 +152,8 @@ public class Boom : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!boxCollider.enabled) {
-			float distance = Vector3.Distance (mapManager.getPlayer ().transform.position, transform.position);
+			float distance = mapManager.getPlayer () == null ? 100 : 
+				Vector3.Distance (mapManager.getPlayer ().transform.position, transform.position);
 			if (distance >= mapManager.getCellSize ())
 				boxCollider.enabled = true;
 		}

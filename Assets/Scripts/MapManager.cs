@@ -50,6 +50,8 @@ public enum MapObjectType {
 public interface MapManagerListener {
 	void onMapReady ();
     void onMapChanged();
+	void onPlayerDied();
+	void onAllGhostsDied();
 }
 
 public class MapManager : MonoBehaviour {
@@ -185,6 +187,21 @@ public class MapManager : MonoBehaviour {
 		// Dont trigger onMapChanged
 //		foreach (var listener in listeners)
 //			listener.onMapChanged ();
+	}
+
+	public void removeGhost(GameObject ghost) {
+		ghosts.Remove (ghost);
+		foreach (var listener in listeners)
+			listener.onMapChanged ();
+		if (ghosts.Count == 0)
+			foreach (var listener in listeners)
+				listener.onAllGhostsDied ();
+	}
+
+	public void removePlayer() {
+		this.player = null;
+		foreach (var listener in listeners)
+			listener.onPlayerDied (); 
 	}
 
     public GameObject getPlayer()

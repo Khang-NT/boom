@@ -4,83 +4,20 @@ using System.Collections.Generic;
 using System;
 using System.Diagnostics;
 
-public class Ghost2 : MonoBehaviour, MapManagerListener {
+public class Ghost2 : GhostBase {
 	private static readonly int CELL_COUNT = MapManager.MAP_WIDTH * MapManager.MAP_HEIGHT;
 	private readonly object syncLock = new object();
 
-	public MapManager mapManager;
-	public float speed;
-	public int smartness = 1;
 
-//	private Rigidbody2D rgBody;
-	private bool requireUpdate = false;
-	private float requireUpdateTimeOut;
-	private Vector3 playerTracking;
-	private List<MapLocation> path;
-
-	// Use this for initialization
-	void Start () {
-//		rgBody = GetComponent<Rigidbody2D> ();
-
-		mapManager.addListener (this);
-	}
-
-	void requireToUpdate() {
-		this.requireUpdate = true;
-		this.requireUpdateTimeOut = 0.1f; // 100 miliseconds	
-	}
-
-	public void onMapReady() {
-		playerTracking = mapManager.getPlayer ().transform.position;
-		requireToUpdate ();
-	}
-
-	public void onMapChanged()
-	{
-		requireToUpdate ();
-	}
-
-	void OnTriggerEnter2D(Collider2D col) {
-		print (col.gameObject.name);
-		print (col.gameObject.tag);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (Vector3.Distance (mapManager.getPlayer ().transform.position, playerTracking) > mapManager.getCellSize ()) {
-			playerTracking = mapManager.getPlayer ().transform.position;
-			requireUpdate = true;
-		}
-
-		if (requireUpdate) {
-			if (requireUpdateTimeOut > 0)
-				requireUpdateTimeOut -= Time.deltaTime;
-			else {
-				requireUpdate = false;
-				MapLocation startPos = MapManager.getMapLocation (gameObject);
-				if (smartness < 3 || smartness == 4 || mapManager.getBooms ().Count == 0) {
-					MapLocation targetPos = MapManager.getMapLocation (mapManager.getPlayer ());
-					findShortestPath (startPos, targetPos);
-					if (smartness == 4 && path == null)
-						findSafestPlace (startPos);
-				} else {
-					findSafestPlace (startPos);
-				}
-			}
-		}
-		if (path == null || path.Count == 0) {
-				// stop moving
+	public override void doUpdatePath() {
+		MapLocation startPos = MapManager.getMapLocation (gameObject);
+		if (smartness < 3 || smartness == 4 || mapManager.getBooms ().Count == 0) {
+			MapLocation targetPos = MapManager.getMapLocation (mapManager.getPlayer ());
+			findShortestPath (startPos, targetPos);
+			if (smartness == 4 && path == null)
+				findSafestPlace (startPos);
 		} else {
-			Vector3 target = MapManager.mapLocationToVector3(path [path.Count - 1]);
-			Vector3 move = target - transform.position;
-			float maxDistance = speed * Time.deltaTime;
-			if (move.sqrMagnitude <= maxDistance) {
-				transform.position = target;
-				path.RemoveAt (path.Count - 1);
-			} else {
-				move = move.normalized * speed * Time.deltaTime;
-				transform.Translate (move);
-			}
+			findSafestPlace (startPos);
 		}
 	}
 
@@ -276,133 +213,3 @@ public class Ghost2 : MonoBehaviour, MapManagerListener {
 }
 
 
-public class Node : MapLocation, IHeadItem<Node> {
-	public Node parent;
-	public int gCost;
-	public int hCost;
-
-	public int heapIndex_;
-
-	public Node(MapLocation source) : this(source.X, source.Y) {
-
-	}
-
-	public Node(int x, int y) : base(x , y) {
-		gCost = hCost = 0;
-	}
-
-	public int fCost {
-		get {
-			return gCost + hCost;
-		}
-	}
-
-	public int heapIndex {
-		get {
-			return heapIndex_;
-		}
-		set {
-			heapIndex_ = value;
-		}
-	}
-
-	public int CompareTo(Node nodeToCompare) {
-		int compare = fCost.CompareTo(nodeToCompare.fCost);
-		if (compare == 0) {
-			compare = hCost.CompareTo(nodeToCompare.hCost);
-		}
-		return -compare;
-	}
-}
-
-public class Heap<T> where T : IHeadItem<T> {
-	T[] items;
-	int currentItemCount;
-
-	public Heap(int maxSize) {
-		items = new T[maxSize];
-	}
-
-	public void add(T item) {
-		item.heapIndex = currentItemCount;
-		items [currentItemCount] = item;
-		sortUp (item);
-		currentItemCount++;
-	}
-
-	public void updateItem(T item) {
-		sortUp(item);
-	}
-
-	public T RemoveFirst() {
-		T firstItem = items[0];
-		currentItemCount--;
-		items[0] = items[currentItemCount];
-		items[0].heapIndex = 0;
-		sortDown(items[0]);
-		return firstItem;
-	}
-
-	public int size() {
-		return currentItemCount;
-	}
-
-	public bool contain(T item) {
-		return Equals(items[item.heapIndex], item);
-	}
-
-	void sortDown(T item) {
-		while (true) {
-			int childIndexLeft = item.heapIndex * 2 + 1;
-			int childIndexRight = item.heapIndex * 2 + 2;
-			int swapIndex = 0;
-
-			if (childIndexLeft < currentItemCount) {
-				swapIndex = childIndexLeft;
-
-				if (childIndexRight < currentItemCount) {
-					if (items[childIndexLeft].CompareTo(items[childIndexRight]) < 0) {
-						swapIndex = childIndexRight;
-					}
-				}
-
-				if (item.CompareTo(items[swapIndex]) < 0) {
-					swap (item,items[swapIndex]);
-				} else {
-					return;
-				}
-
-			} else {
-				return;
-			}
-
-		}
-	}
-
-	void sortUp(T item) {
-		int parentIndex = (item.heapIndex - 1) / 2;
-		while (true) {
-			T parent = items [parentIndex];
-			if (item.CompareTo (parent) > 0) {
-				swap (item, parent);
-			} else
-				break;
-			parentIndex = (item.heapIndex - 1) / 2;
-		}
-	}
-
-	void swap(T itemA, T itemB) {
-		items[itemA.heapIndex] = itemB;
-		items[itemB.heapIndex] = itemA;
-		int itemAIndex = itemA.heapIndex;
-		itemA.heapIndex = itemB.heapIndex;
-		itemB.heapIndex = itemAIndex;
-	}
-}
-
-public interface IHeadItem<T> : IComparable<T> {
-	int heapIndex {
-		get;
-		set;
-	}
-}
