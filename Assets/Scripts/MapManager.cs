@@ -110,7 +110,6 @@ public class MapManager : MonoBehaviour {
 		// find player and ghosts
 		player = GameObject.Find ("player");
 
-		Debug.Log (player);
 		ghosts = new List<GameObject> ();
 		GameObject[] gs = GameObject.FindGameObjectsWithTag ("ghost");
 		foreach (GameObject go in gs)
