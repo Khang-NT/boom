@@ -49,7 +49,9 @@ public abstract class GhostBase : MonoBehaviour, MapManagerListener, IHpValue {
 	void OnCollisionEnter2D(Collision2D col) {
 		if (col.gameObject.tag.Equals ("flame")) {
 			this.hp--;
+			GamePlay.getInstance ().Score += 5;
 			if (this.hp == 0) {
+				GamePlay.getInstance ().Score += 10;
 				mapManager.removeListener (this);
 				mapManager.removeGhost (this.gameObject);
 				Destroy (this.gameObject);

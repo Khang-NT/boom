@@ -95,18 +95,23 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 		if (col.gameObject.tag.Equals ("item_speed")) {
 			bufSpeedTime = 5;	// 5 secs
 			Destroy (col.gameObject);
+			GamePlay.getInstance ().Score += 3;
 		} else if (col.gameObject.tag.Equals ("item_heart")) {
 			GamePlay.getInstance ().Heart++;
 			Destroy (col.gameObject);
+			GamePlay.getInstance ().Score += 3;
 		} else if (col.gameObject.tag.Equals ("item_flame")) {
 			boomRadius++;
 			Destroy (col.gameObject);
+			GamePlay.getInstance ().Score += 3;
 		} else if (col.gameObject.tag.Equals ("item_booms")) {
 			maxBoomCount++;
 			Destroy (col.gameObject);
+			GamePlay.getInstance ().Score += 3;
 		} else if (col.gameObject.tag.Equals ("item_hp")) {
 			this.hp = MAX_HP;
 			Destroy(col.gameObject);
+			GamePlay.getInstance ().Score += 3;
 		}
 	}
 
@@ -143,6 +148,8 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 		if (allGhostsDied && !stopped) {
 			MapLocation lc = MapManager.getMapLocation (gameObject);
 			stopped = lc.X == finalX && lc.Y == finalY;
+			if (stopped)
+				GamePlay.getInstance ().Score += 50;
 		}
 
 		if (!stopped) {
