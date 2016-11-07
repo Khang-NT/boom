@@ -223,8 +223,7 @@ public class MapManager : MonoBehaviour {
 	public GameObject getGameObjectAt(MapLocation location) {
 		if (bricks.ContainsKey (location))
 			return bricks [location];
-		if (player != null && getMapLocation (player).Equals(location))
-			return player;
+		
 		foreach (var ghost in ghosts) {
 			if (getMapLocation (ghost).Equals(location))
 				return ghost;
@@ -233,6 +232,8 @@ public class MapManager : MonoBehaviour {
 			if (getMapLocation (boom).Equals(location))
 				return boom;
 		}
+		if (player != null && getMapLocation (player).Equals(location))
+			return player;
 		foreach (var f in flame) {
 			if (getMapLocation (f).Equals(location))
 				return f;
