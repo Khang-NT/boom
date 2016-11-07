@@ -86,6 +86,12 @@ public class GamePlay {
 		}
 	}
 
+	public int HighScore {
+		get {
+			return highScore;
+		}
+	}
+
 	public void reset() {
 		boardId = 1;
 		score = 0;
