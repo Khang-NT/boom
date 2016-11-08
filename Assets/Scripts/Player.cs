@@ -10,7 +10,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	private SpriteRenderer spriteRenderer;
 	private int state = -1;
 	public List<Sprite> playerStates;
-	private float speed = 30f;
+	private float speed = 50f;
 	public int maxBoomCount = 1;
 	public int boomRadius = 2;
 	public int finalX, finalY;
@@ -141,7 +141,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	// Update is called once per frame
 	void Update () {
 		if (bufSpeedTime > 0) {
-			speed = 40f;
+			speed = 80f;
 			bufSpeedTime -= Time.deltaTime;
 		} else {
 			speed = 30f;
