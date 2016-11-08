@@ -209,6 +209,10 @@ public class MapManager : MonoBehaviour {
         return player;
     }
 
+	public List<GameObject> getGhosts() {
+		return ghosts;
+	}
+
 	public float getCellSize() {
 		return cellSize;
 	}
