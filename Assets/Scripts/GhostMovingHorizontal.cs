@@ -21,7 +21,8 @@ public class GhostMovingHorizontal : GhostBase {
 			moveRight = !moveRight;
 		}
 		for (int i = currentPos.X + (moveRight ? 1 : -1); moveRight ? i < MapManager.MAP_WIDTH : i > 0; i += (moveRight ? 1 : -1)) {
-			if (mapManager [i, currentPos.Y] == null)
+			var go = mapManager [i, currentPos.Y];
+			if (go == null || go.name.Equals("player"))
 				path.Add (new MapLocation (i, currentPos.Y));
 			else
 				break;

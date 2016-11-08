@@ -21,8 +21,9 @@ public class GhostMovingVertical : GhostBase {
 			moveUp = !moveUp;
 		}
 		for (int i = currentPos.Y + (moveUp ? 1 : -1); moveUp ? i < MapManager.MAP_HEIGHT : i > 0; i += (moveUp ? 1 : -1)) {
-			if (mapManager [currentPos.X, i] == null)
-				path.Add (new MapLocation (currentPos.X, i));
+			var go = mapManager [i, currentPos.Y];
+			if (go == null || go.name.Equals("player"))
+				path.Add (new MapLocation (i, currentPos.Y));
 			else
 				break;
 		}
