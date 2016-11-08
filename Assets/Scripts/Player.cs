@@ -152,6 +152,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 		if (allGhostsDied && !stopped) {
 			MapLocation lc = MapManager.getMapLocation (gameObject);
 			stopped = lc.X == finalX && lc.Y == finalY;
+			win = true;
 			if (stopped)
 				GamePlay.getInstance ().Score += 50;
 		}
@@ -185,6 +186,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 					GamePlay.getInstance ().BoardId++;
 				else
 					GamePlay.getInstance ().BoardId = SceneManager.sceneCountInBuildSettings - 1;
+				GamePlay.getInstance ().Win = true;
 				SceneManager.LoadScene (GamePlay.getInstance ().BoardId);
 			}
 		}

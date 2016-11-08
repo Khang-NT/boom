@@ -17,11 +17,13 @@ public class GhostMovingVertical : GhostBase {
 			path = new List<MapLocation> ();
 		path.Clear ();
 		MapLocation currentPos = MapManager.getMapLocation (gameObject);
-		if (mapManager [currentPos.X, currentPos.Y + (moveUp ? 1 : -1)] != null) {
+		if (mapManager [currentPos.X, currentPos.Y + (moveUp ? 1 : -1)] != null
+			&& !mapManager [currentPos.X, currentPos.Y + (moveUp ? 1 : -1)].name.Equals("player")) {
 			moveUp = !moveUp;
 		}
 		for (int i = currentPos.Y + (moveUp ? 1 : -1); moveUp ? i < MapManager.MAP_HEIGHT : i > 0; i += (moveUp ? 1 : -1)) {
-			if (mapManager [currentPos.X, i] == null)
+			var go = mapManager [currentPos.X, i];
+			if (go == null || go.name.Equals("player"))
 				path.Add (new MapLocation (currentPos.X, i));
 			else
 				break;
