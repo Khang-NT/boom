@@ -186,7 +186,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 					GamePlay.getInstance ().BoardId++;
 				else
 					GamePlay.getInstance ().BoardId = SceneManager.sceneCountInBuildSettings - 1;
-				GamePlay.getInstance ().Win = true;
+				GamePlay.getInstance ().Win = win;
 				SceneManager.LoadScene (GamePlay.getInstance ().BoardId);
 			}
 		}
