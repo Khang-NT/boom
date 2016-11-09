@@ -13,4 +13,8 @@ public class WelcomeScreenController : MonoBehaviour {
 			SceneManager.LoadScene (1); 
 		}
 	}
+
+	public void showHighScores() {
+		SceneManager.LoadScene (6);
+	}
 }
