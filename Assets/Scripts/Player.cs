@@ -141,10 +141,10 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	// Update is called once per frame
 	void Update () {
 		if (bufSpeedTime > 0) {
-			speed = 80f;
+			speed = 70f;
 			//bufSpeedTime -= Time.deltaTime;
 		} else {
-			speed = 50f;
+			speed = 45f;
 		}
 		if (timer1 > 0)
 			timer1 -= Time.deltaTime;
