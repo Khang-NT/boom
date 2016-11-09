@@ -5,7 +5,7 @@ public class Boom : MonoBehaviour {
 
 	public MapManager mapManager;
 
-	public float time = 2;	// 2 seconds
+	public float time;	// 2 seconds
 	public int radius = 2;
 
 	private BoxCollider2D boxCollider;
