@@ -142,7 +142,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	void Update () {
 		if (bufSpeedTime > 0) {
 			speed = 80f;
-			bufSpeedTime -= Time.deltaTime;
+			//bufSpeedTime -= Time.deltaTime;
 		} else {
 			speed = 40f;
 		}
