@@ -144,7 +144,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 			speed = 80f;
 			//bufSpeedTime -= Time.deltaTime;
 		} else {
-			speed = 40f;
+			speed = 50f;
 		}
 		if (timer1 > 0)
 			timer1 -= Time.deltaTime;
