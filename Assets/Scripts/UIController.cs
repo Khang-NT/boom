@@ -16,7 +16,7 @@ public class UIController : MonoBehaviour {
 		var gamePlay = GamePlay.getInstance ();
 		heart.text = gamePlay.Heart + "";
 		score.text = gamePlay.Score + "";
-		if (gamePlay.Score > 0 && gamePlay.Score == gamePlay.HighScore)
+		if (gamePlay.Score > 0 && gamePlay.Score >= gamePlay.HighScore)
 			score.color = Color.green;
 	}
 }

@@ -11,13 +11,14 @@ public class EndGameController : MonoBehaviour {
 		GamePlay gamePlay = GamePlay.getInstance ();
 		GameObject.Find("GameResult").GetComponent<Text>().text = gamePlay.Win ? "Win!!!" : "GameOver";
 		GameObject.Find ("Score").GetComponent<Text> ().text = gamePlay.Score.ToString ();
-		bool newHighScore = gamePlay.Score == gamePlay.HighScore;
+		bool newHighScore = gamePlay.Score > gamePlay.HighScore;
 		GameObject.Find ("HighScore").SetActive (newHighScore);
 		if (newHighScore)
 			GameObject.Find ("PlayerName").GetComponent<Text> ().text = gamePlay.PlayerName;
+		gamePlay.saveScoreAndRenew ();
 	}
 	
 	public void newGame() {
-		SceneManager.LoadScene (0);
+		SceneManager.LoadScene (6);
 	}
 }

@@ -182,10 +182,13 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 			if (nextBoardDelay > 0) {
 				nextBoardDelay -= Time.deltaTime;
 			} else {
-				if (win)
+				if (win) {
 					GamePlay.getInstance ().BoardId++;
-				else
-					GamePlay.getInstance ().BoardId = SceneManager.sceneCountInBuildSettings - 1;
+					if (GamePlay.getInstance ().Round < GamePlay.MAX_ROUND)
+						GamePlay.getInstance ().Round++;
+				} else {
+					GamePlay.getInstance ().BoardId = SceneManager.sceneCountInBuildSettings - 2;
+				}
 				GamePlay.getInstance ().Win = win;
 				SceneManager.LoadScene (GamePlay.getInstance ().BoardId);
 			}

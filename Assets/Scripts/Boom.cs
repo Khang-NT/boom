@@ -166,8 +166,12 @@ public class Boom : MonoBehaviour {
 			stop = true;
 			mapManager.removeBoom (this.gameObject);
 			onExploded ();
-			gameObject.GetComponent<AudioSource> ().PlayOneShot (explosionSound);
-			Destroy (gameObject, explosionSound.length);
+			if (GamePlay.getInstance ().IsSoundEnabled) {
+				gameObject.GetComponent<AudioSource> ().PlayOneShot (explosionSound);
+				Destroy (gameObject, explosionSound.length);
+			} else {
+				Destroy (this.gameObject);
+			}
 		}
 	}
 }
