@@ -5,7 +5,7 @@ public class Boom : MonoBehaviour {
 
 	public MapManager mapManager;
 
-	public float time = 2;	// 2 seconds
+	public float time;	// 2 seconds
 	public int radius = 2;
 
 	private BoxCollider2D boxCollider;
@@ -166,8 +166,12 @@ public class Boom : MonoBehaviour {
 			stop = true;
 			mapManager.removeBoom (this.gameObject);
 			onExploded ();
-			gameObject.GetComponent<AudioSource> ().PlayOneShot (explosionSound);
-			Destroy (gameObject, explosionSound.length);
+			if (GamePlay.getInstance ().IsSoundEnabled) {
+				gameObject.GetComponent<AudioSource> ().PlayOneShot (explosionSound);
+				Destroy (gameObject, explosionSound.length);
+			} else {
+				Destroy (this.gameObject);
+			}
 		}
 	}
 }

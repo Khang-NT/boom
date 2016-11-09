@@ -97,7 +97,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 
 	void OnTriggerEnter2D (Collider2D col) {
 		if (col.gameObject.tag.Equals ("item_speed")) {
-			bufSpeedTime = 5;	// 5 secs
+			bufSpeedTime = 60;	// 5 secs
 			Destroy (col.gameObject);
 			GamePlay.getInstance ().Score += 3;
 		} else if (col.gameObject.tag.Equals ("item_heart")) {
@@ -141,10 +141,10 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 	// Update is called once per frame
 	void Update () {
 		if (bufSpeedTime > 0) {
-			speed = 80f;
-			bufSpeedTime -= Time.deltaTime;
+			speed = 70f;
+			//bufSpeedTime -= Time.deltaTime;
 		} else {
-			speed = 30f;
+			speed = 45f;
 		}
 		if (timer1 > 0)
 			timer1 -= Time.deltaTime;
@@ -182,10 +182,13 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 			if (nextBoardDelay > 0) {
 				nextBoardDelay -= Time.deltaTime;
 			} else {
-				if (win)
+				if (win) {
 					GamePlay.getInstance ().BoardId++;
-				else
-					GamePlay.getInstance ().BoardId = SceneManager.sceneCountInBuildSettings - 1;
+					if (GamePlay.getInstance ().Round < GamePlay.MAX_ROUND)
+						GamePlay.getInstance ().Round++;
+				} else {
+					GamePlay.getInstance ().BoardId = SceneManager.sceneCountInBuildSettings - 2;
+				}
 				GamePlay.getInstance ().Win = win;
 				SceneManager.LoadScene (GamePlay.getInstance ().BoardId);
 			}
