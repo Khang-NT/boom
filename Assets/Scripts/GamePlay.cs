@@ -148,6 +148,17 @@ public class GamePlay {
 		}
 	}
 
+	public List<PlayerScore> Histories {
+		get {
+			return histories;
+		}
+	}
+
+	public void clearHistories() {
+		this.histories.Clear ();
+		saveHighScoreToFile ();
+	}
+
 	public void saveScoreAndRenew() {
 		if (histories.Count == 0) {
 			histories.Add (currentScore);
@@ -173,7 +184,7 @@ public class GamePlay {
 			string[] lines = File.ReadAllLines (HIGH_SCORE_FILE);
 			if (lines.Length %  3 == 0) {
 				for (int i = 0; i < lines.Length / 3; i++)
-					histories.Add (new PlayerScore (int.Parse(lines[i]), int.Parse(lines[i+1]), lines[i+2]));
+					histories.Add (new PlayerScore (int.Parse (lines [i * 3]), int.Parse (lines [i * 3 + 1]), lines [i * 3 + 2]));
 			}
 		}
 	}
