@@ -9,6 +9,7 @@ public class EndGameController : MonoBehaviour {
 
 	void Start () {
 		GamePlay gamePlay = GamePlay.getInstance ();
+		gamePlay.saveScoreAndRenew ();
 		GameObject.Find("GameResult").GetComponent<Text>().text = gamePlay.Win ? "Win!!!" : "GameOver";
 		GameObject.Find ("Score").GetComponent<Text> ().text = gamePlay.Score.ToString ();
 		bool newHighScore = gamePlay.Score == gamePlay.HighScore;
