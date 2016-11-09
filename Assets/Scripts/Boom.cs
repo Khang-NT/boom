@@ -9,6 +9,9 @@ public class Boom : MonoBehaviour {
 	public int radius = 2;
 
 	private BoxCollider2D boxCollider;
+	public AudioClip explosionSound;
+
+	private bool stop = false;
 
 	// Use this for initialization
 	void Start () {
@@ -159,10 +162,12 @@ public class Boom : MonoBehaviour {
 		}
 
 		time -= Time.deltaTime;
-		if (time <= 0) {
+		if (!stop && time <= 0) {
+			stop = true;
 			mapManager.removeBoom (this.gameObject);
 			onExploded ();
-			Destroy (gameObject);
+			gameObject.GetComponent<AudioSource> ().PlayOneShot (explosionSound);
+			Destroy (gameObject, explosionSound.length);
 		}
 	}
 }
