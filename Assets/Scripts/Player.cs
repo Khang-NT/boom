@@ -97,7 +97,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 
 	void OnTriggerEnter2D (Collider2D col) {
 		if (col.gameObject.tag.Equals ("item_speed")) {
-			bufSpeedTime = 5;	// 5 secs
+			bufSpeedTime = 60;	// 5 secs
 			Destroy (col.gameObject);
 			GamePlay.getInstance ().Score += 3;
 		} else if (col.gameObject.tag.Equals ("item_heart")) {
@@ -144,7 +144,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 			speed = 80f;
 			bufSpeedTime -= Time.deltaTime;
 		} else {
-			speed = 30f;
+			speed = 40f;
 		}
 		if (timer1 > 0)
 			timer1 -= Time.deltaTime;
