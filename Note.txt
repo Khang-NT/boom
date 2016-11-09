@@ -1,0 +1,8 @@
+1 - boss la clone cua ma
+2 - tao default speed trong map manager
+3 - ma di xuyen item
+4 - tim chia khoa -> kill all ghosts --> mo cua --> qua man,  man cuoi diet boss (map manager quan
+	ly may cai cong + key ...)
+5 - choi theo mang, chet thi hoi sinh lai o vi tri nao do, het mang thi coi nhu choi lai tu dau
+6 - gui, score board, ten nguoi choi , ...; luu xuong file
+7 - 
