@@ -187,7 +187,7 @@ public class Player : MonoBehaviour, MapManagerListener, IHpValue {
 					if (GamePlay.getInstance ().Round < GamePlay.MAX_ROUND)
 						GamePlay.getInstance ().Round++;
 				} else {
-					GamePlay.getInstance ().BoardId = SceneManager.sceneCountInBuildSettings - 2;
+					GamePlay.getInstance ().BoardId = 5;
 				}
 				GamePlay.getInstance ().Win = win;
 				SceneManager.LoadScene (GamePlay.getInstance ().BoardId);

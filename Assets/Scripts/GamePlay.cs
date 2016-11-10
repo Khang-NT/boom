@@ -175,6 +175,7 @@ public class GamePlay {
 
 	public void reset() {
 		currentScore.reset ();
+		boardId = 1;
 		heart = 3;
 	}
 
